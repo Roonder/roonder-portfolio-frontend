@@ -1,0 +1,47 @@
+{
+	"name": "roonder-portfolio-frontend",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "react-router build",
+		"dev": "react-router dev",
+		"start": "react-router-serve ./build/server/index.js",
+		"typecheck": "react-router typegen && tsc"
+	},
+	"dependencies": {
+		"@base-ui/react": "^1.6.0",
+		"@fontsource-variable/noto-sans": "^5.2.10",
+		"@fontsource-variable/playfair-display": "^5.2.8",
+		"@fontsource/hanken-grotesk": "^5.2.8",
+		"@react-router/node": "8.0.0",
+		"@react-router/serve": "8.0.0",
+		"animejs": "^4.5.0",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"i18next": "^26.3.6",
+		"isbot": "^5.1.36",
+		"lucide-react": "^1.24.0",
+		"motion": "^12.42.2",
+		"react": "^19.2.7",
+		"react-dom": "^19.2.7",
+		"react-hook-form": "^7.81.0",
+		"react-i18next": "^17.0.9",
+		"react-router": "8.0.0",
+		"shadcn": "^4.13.0",
+		"swr": "^2.4.2",
+		"tailwind-merge": "^3.6.0",
+		"tw-animate-css": "^1.4.0",
+		"zod": "^4.4.3",
+		"zustand": "^5"
+	},
+	"devDependencies": {
+		"@react-router/dev": "8.0.0",
+		"@tailwindcss/vite": "^4.2.2",
+		"@types/node": "^22",
+		"@types/react": "^19.2.14",
+		"@types/react-dom": "^19.2.3",
+		"tailwindcss": "^4.2.2",
+		"typescript": "^5.9.3",
+		"vite": "^8.0.3"
+	}
+}

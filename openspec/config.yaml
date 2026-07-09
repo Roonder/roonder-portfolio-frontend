@@ -1,0 +1,71 @@
+# openspec/config.yaml
+# Project-specific SDD configuration for roonder-portfolio-frontend.
+# See .agents/skills/openspec-convention.md (shared) for the full schema.
+
+schema: spec-driven
+
+# Concise project context. Keep this section under 10 lines.
+context: |
+  Tech stack: React Router 8.0.0 (Framework mode, SSR enabled), React 19.2.7,
+    Vite 8, TypeScript 5.9.3 (strict), Tailwind CSS 4 (@tailwindcss/vite),
+    shadcn/ui (style: base-sera, baseColor: taupe), @base-ui/react primitives,
+    react-hook-form + zod, swr, zustand 5, i18next + react-i18next,
+    animejs + motion.
+  Architecture: public/admin split. Public (/, /works, /works/:slug, /contact)
+    is i18n'd in en (default) and es (/es/...); admin (/admin/*) is en-only
+    and contains the auth/projects/reviews/contact subdomains. Screaming
+    Architecture: app/{home,works,contact,admin,shared}/. State model:
+    SWR (server) + react-hook-form (form) + zustand 5 (cross-route UI) +
+    useState (local). Single theme (taupe). Path alias ~/* -> app/*.
+  Testing: typecheck only (bun run typecheck -> react-router typegen && tsc).
+    No unit/integration/E2E runner is configured. strict_tdd is disabled
+    until a test runner is added.
+  Package manager: Bun (bun.lock present). Sibling API project at
+    ../roonder-portfolio-backend uses NestJS + Jest and already has its own
+    openspec/ tree (read-only reference for shared domain vocabulary).
+
+testing:
+  strict_tdd: false
+  runner: null
+  typecheck_command: "bun run typecheck"
+  layers:
+    unit: { available: false, tool: null }
+    integration: { available: false, tool: null }
+    e2e: { available: false, tool: null }
+  coverage: { available: false, command: null }
+  quality:
+    linter: { available: false, command: null }
+    type_checker: { available: true, command: "bun run typecheck" }
+    formatter: { available: false, command: null, note: ".prettierrc present but prettier not in dependencies" }
+
+rules:
+  proposal:
+    - Include rollback plan for risky changes
+    - Cross-reference the sibling NestJS API when the change touches shared domain types
+  specs:
+    - Use Given/When/Then for scenarios
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
+    - Delta specs must live under openspec/changes/{change-name}/specs/{domain}/spec.md
+  design:
+    - Include sequence diagrams for complex flows
+    - Document architecture decisions with rationale
+    - State Framework vs SPA vs pre-render choice per route when relevant
+  tasks:
+    - Group by phase, use hierarchical numbering
+    - Keep tasks completable in one session
+    - Pair any new dependency with a typecheck pass before marking complete
+  apply:
+    - Follow existing code patterns (atomic design, container/presentational)
+    - Honor React 19 compiler rules: no manual useMemo/useCallback/React.memo
+    - Use cn() for conditional Tailwind classes; never var() in className
+    - Use the project-local react-router skill before touching routes
+    tdd: false
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: "bun run build"
+    typecheck_command: "bun run typecheck"
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas
+    - Move the entire change folder under openspec/changes/archive/YYYY-MM-DD-{change-name}/

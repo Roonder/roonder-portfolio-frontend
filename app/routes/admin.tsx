@@ -42,6 +42,38 @@ export async function loader({ request }: Route.LoaderArgs) {
   );
 }
 
+// Design §4.7 / T-I-3: a `clientLoader` fallback for the
+// pre-PR-0 (backend `setAccessCookie`) window was considered. With
+// PR 0 merged, the SSR loader's `getSession` is the production
+// path and the fallback would be a no-op. Two reasons we did NOT
+// add it:
+//
+//  1. **React Router 8 redirect semantics.** When the SSR `loader`
+//     throws `redirect()`, the response IS a 30x navigation and a
+//     `clientLoader` does NOT get a chance to "rescue" it. The
+//     `clientLoader` only runs on client-side navigations and
+//     (with `clientLoader.hydrate = true`) on initial hydration.
+//     The design's "if the SSR loader threw, the clientLoader
+//     retries on the client" pattern is not how React Router 8
+//     actually behaves. A no-op export with documentation would
+//     add typegen noise (`loaderData` becomes `null | <loader type>`)
+//     for zero behavioral benefit.
+//
+//  2. **Cost of dead code.** An exported `clientLoader` that
+//     typechecks is a maintenance surface: a future maintainer
+//     reading the file might assume it does something and add
+//     logic that races the SSR loader. The design itself notes
+//     ("OR drop the `clientLoader` if the PR 2 code path already
+//     covers the cookie-missing window — apply-phase decision")
+//     that dropping is the right call when the production path
+//     is the SSR loader.
+//
+// The historical intent is preserved in this comment and in
+// design §4.7 / tasks.md §6 (T-I-3). If the cookie contract ever
+// drifts again (e.g. a future PR renames the cookie), reintroduce
+// the clientLoader as a real rescue path — at that point the
+// typegen trade-off is justified.
+
 export function meta({}: Route.MetaArgs) {
   return [{ title: "Admin — Roonder Portfolio" }];
 }

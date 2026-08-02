@@ -50,6 +50,7 @@ export default [
   layout("routes/admin.tsx", [
     index("routes/admin._index.tsx"),
     route("auth", "routes/admin.auth.tsx"),
+    route("auth/logout", "routes/admin.auth.logout.tsx"),
 
     route("projects", "routes/admin.projects.tsx", [
       index("routes/admin.projects._index.tsx"),

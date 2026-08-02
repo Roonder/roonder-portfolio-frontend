@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import {
 	isRouteErrorResponse,
 	Links,
@@ -8,6 +9,7 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+import { useSessionStore } from "~/shared/stores/session";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [];
@@ -31,6 +33,19 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export default function App() {
+	// REQ-SES-4: hydrate `useSessionStore` from the `access` cookie
+	// once on the first client render. The `useRef` guard protects
+	// against React 19 strict-mode double-invokes in dev (production
+	// runs the effect once because the deps array is empty). NOT
+	// `useMemo` / `useCallback` — the React Compiler handles stable
+	// references.
+	const hydratedRef = useRef(false);
+	useEffect(() => {
+		if (hydratedRef.current) return;
+		hydratedRef.current = true;
+		useSessionStore.getState().hydrate();
+	}, []);
+
 	return <Outlet />;
 }
 

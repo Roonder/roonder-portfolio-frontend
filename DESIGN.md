@@ -60,7 +60,7 @@ app/
     works.$slug.tsx           # /works/:slug  - project detail
     contact.tsx               # /contact      - public contact form
     admin.tsx                 # /admin        - admin layout (session-gated)
-    admin.login.tsx           # /admin/login  - admin login
+    admin.auth.tsx            # /admin/auth   - admin login
     admin.projects.tsx        # /admin/projects        - project list
     admin.projects.new.tsx    # /admin/projects/new    - create project
     admin.projects.$id.tsx    # /admin/projects/:id    - edit project
@@ -125,7 +125,7 @@ Do not define routes anywhere else.
 | `/works` | `works.tsx` | SSR | public |
 | `/works/:slug` | `works.$slug.tsx` | SSR | public |
 | `/contact` | `contact.tsx` | SSR | public |
-| `/admin/login` | `admin.login.tsx` | SSR | public |
+| `/admin/auth` | `admin.auth.tsx` | SSR | public |
 | `/admin` | `admin.tsx` | SSR | session |
 | `/admin/projects` | `admin.projects.tsx` | SSR | session |
 | `/admin/projects/new` | `admin.projects.new.tsx` | SSR | session |
@@ -267,8 +267,8 @@ Source of truth: the backend at `../roonder-portfolio-backend`.
 
 | Frontend path | Backend endpoint | Method | Auth |
 | --- | --- | --- | --- |
-| `/admin/login` | `/api/v1/auth/login` | POST | none |
-| `/admin` (layout loader) | `/api/v1/auth/me` | GET | bearer |
+| `/admin/auth` | `/api/v1/auth/login` | POST | none |
+| `/admin` (layout loader) | `/api/v1/auth/profile` | GET | bearer |
 | `/admin/projects` | `/api/v1/admin/projects` | GET | bearer |
 | `/admin/projects/new` | `/api/v1/admin/projects` | POST | bearer |
 | `/admin/projects/:id` | `/api/v1/admin/projects/:id` | GET, PATCH, DELETE | bearer |

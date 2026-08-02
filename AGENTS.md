@@ -148,6 +148,12 @@ skills into application code — they are scaffolding, not product knowledge.
   done via the `shadcn` MCP — we want to keep the registry reproducible.
 - Do not commit `bun.lock` churn unless a dependency actually changed.
 - Do not put secrets in `.env` and commit it. `.env` is gitignored.
+- **Mirror the backend's locked specs.** The frontend does not re-derive
+  API contracts; if a doc drifts (e.g. a renamed endpoint, a new cookie
+  attribute, a new error kind), the frontend is the one to fix it.
+  Before touching an admin auth surface, read
+  `../roonder-portfolio-backend/openspec/specs/auth-domain/spec.md`
+  first.
 
 ## Pointers
 

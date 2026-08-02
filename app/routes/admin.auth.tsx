@@ -1,21 +1,10 @@
-import type { Route } from "./+types/admin.auth";
-
 /**
  * Admin login route.
  *
- * TODO action: validate credentials, set a session cookie, and redirect to
- * `/admin` on success. The parent `admin.tsx` layout already exempts this
- * URL from the auth guard, so unauthenticated users can reach it.
+ * Re-exports the page (and its meta) from `~/admin/auth/pages/login`
+ * and the server action from `~/admin/auth/api/login`. The action
+ * is what `fetcher.submit` from the form targets via
+ * `action: '/admin/auth'`.
  */
-export function meta({}: Route.MetaArgs) {
-  return [{ title: "Sign in — Admin" }];
-}
-
-export default function AdminAuth() {
-  return (
-    <section>
-      <h1>Sign in (scaffold)</h1>
-      <p>TODO: replace with the real page from <code>app/admin/auth/</code>.</p>
-    </section>
-  );
-}
+export { default, meta } from "~/admin/auth/pages/login";
+export { loginAction as action } from "~/admin/auth/api/login";

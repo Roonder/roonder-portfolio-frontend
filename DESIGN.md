@@ -280,6 +280,28 @@ When the backend's OpenSpec gains a new requirement, the matching
 this repo. **Never hand-roll a type that the backend already has** —
 import or regenerate from the Swagger document.
 
+### Cross-project cookie spec
+
+The admin auth surface uses two cookies. The contract below is the
+**single source of truth** shared between the backend
+(`../roonder-portfolio-backend/src/auth/auth.controller.ts` —
+`setRefreshCookie` + `setAccessCookie` helpers) and the frontend
+(`app/shared/lib/cookies.ts` — `COOKIE_SPEC` const). Any change here
+MUST be reflected in both repos; drift is the frontend's job to catch
+(see `AGENTS.md` "Mirror the backend's locked specs").
+
+| Cookie | Set by | Lifetime | `httpOnly` | `secure` | `sameSite` | `path` | `maxAge` | Cleared on |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `rt` (refresh) | backend `setRefreshCookie` | `JWT_REFRESH_EXPIRES_IN` (default 30d) | **true** | true | lax | `/` | seconds×1000 | `/auth/logout` (200), refresh 401/reuse-detected |
+| `access` (JWT) | backend `setAccessCookie` | `JWT_EXPIRES_IN` (default 15m) | **false** | true | lax | `/` | seconds×1000 | frontend logout action (`Max-Age=0`) |
+
+The two cookies are **separate by design**: `rt` is the long-lived
+credential that can be replayed and is therefore HttpOnly; `access` is
+the short-lived bearer that the client JS needs to read on first
+client render (the `useSessionStore.hydrate()` step in
+`app/root.tsx`). The XSS surface on `access` is accepted because
+`rt` stays HttpOnly and `access` has a 15-minute expiry.
+
 ## 6. Forms
 
 Every form follows the same shape:

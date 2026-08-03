@@ -88,6 +88,13 @@ export async function requestCore<
 			}),
 			body,
 			signal,
+			// REQ-CLI-1: send the HttpOnly `rt` cookie cross-origin.
+			// `serverFetch` (Node) already forwards the incoming `Cookie`
+			// header explicitly (REQ-SRV-1), so this is a no-op for SSR
+			// but REQUIRED for the browser — without it the default
+			// `same-origin` policy strips `rt` on cross-origin production
+			// and the silent refresh flow collapses.
+			credentials: 'include',
 		});
 
 	try {

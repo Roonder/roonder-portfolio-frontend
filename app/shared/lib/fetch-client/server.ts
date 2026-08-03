@@ -76,6 +76,21 @@ export async function serverFetch<
 			// will pick them up; the original caller will see them in
 			// the returned `serverResult.setCookies`.
 			for (const c of refreshed.setCookies) setCookies.push(c);
+			// REQ-RFR-2: propagate the new access token from the
+			// refresh response body to the in-flight `env` so the
+			// retry in `core.ts` uses the NEW access token (not the
+			// closure-captured stale cookie from the start of this
+			// call). The new `Set-Cookie: access=...` also rides back
+			// to the browser via `setCookies` above, so subsequent
+			// requests read the new cookie naturally.
+			const refreshedData = refreshed.data as
+				| { accessToken?: unknown }
+				| null;
+			const newToken =
+				refreshedData && typeof refreshedData.accessToken === 'string'
+					? refreshedData.accessToken
+					: null;
+			if (newToken) env.accessToken = newToken;
 		},
 	};
 

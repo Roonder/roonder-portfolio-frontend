@@ -64,6 +64,11 @@ export async function clientFetch<S extends z.ZodType | undefined = undefined>(
 							accessToken: token,
 							expiresAt: Date.now() + expiresIn * 1000,
 						});
+						// REQ-RFR-2: propagate the new token to the
+						// in-flight `env` so the retry in `core.ts` uses
+						// the NEW access token (not the closure-captured
+						// stale one from the start of this call).
+						env.accessToken = token;
 					}
 				},
 				onTerminal: () => {
@@ -74,10 +79,10 @@ export async function clientFetch<S extends z.ZodType | undefined = undefined>(
 
 	const result = await requestCore<S>(init, env);
 
-	// The browser does its own `credentials: 'include'` work via
-	// `fetch`'s underlying cookie jar — we don't need to forward
-	// anything here. The result is returned as-is; `core.ts` already
-	// parsed the body and applied the optional schema.
+	// `core.ts` sets `credentials: 'include'` on the underlying fetch
+	// so the HttpOnly `rt` cookie rides along cross-origin (REQ-CLI-1).
+	// The result is returned as-is; `core.ts` already parsed the body
+	// and applied the optional schema.
 	return result;
 }
 

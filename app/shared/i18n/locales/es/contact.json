@@ -1,15 +1,36 @@
 {
 	"meta": {
-		"title": "Contacto — Roonder Portfolio"
+		"title": "Contacto — Roonder Portfolio",
+		"description": "Ponte en contacto para consultas de proyectos, prensa o colaboraciones estratégicas."
+	},
+	"page": {
+		"title": "Iniciar Contacto",
+		"subtitle": "Para consultas de proyectos, prensa o colaboraciones estratégicas.",
+		"intro": "Envía una transmisión y te responderé en 48 horas.",
+		"success": "Transmisión recibida. Espera una respuesta en 48 horas."
 	},
 	"form": {
 		"name": "Nombre",
 		"email": "Correo",
 		"subject": "Asunto",
-		"message": "Mensaje",
+		"body": "Mensaje",
 		"submit": "Enviar Mensaje",
+		"submitting": "Enviando… ({{seconds}}s)",
+		"submittingShort": "Enviando…",
 		"success": "Mensaje enviado. Responderé pronto.",
+		"error": "Algo salió mal. Por favor intenta de nuevo.",
 		"throttled": "Demasiados envíos. Intenta de nuevo en {{seconds}} segundos.",
-		"network": "Parece que estás sin conexión."
+		"throttledGeneric": "Demasiados envíos. Espera un momento e intenta de nuevo.",
+		"network": "Parece que estás sin conexión. Verifica tu conexión y reintenta.",
+		"validation": {
+			"nameMin": "El nombre debe tener al menos 2 caracteres.",
+			"nameMax": "El nombre debe tener 80 caracteres o menos.",
+			"emailRequired": "El correo es obligatorio.",
+			"emailInvalid": "Correo inválido.",
+			"subjectMin": "El asunto debe tener al menos 2 caracteres.",
+			"subjectMax": "El asunto debe tener 120 caracteres o menos.",
+			"messageMin": "El mensaje debe tener al menos 10 caracteres.",
+			"messageMax": "El mensaje debe tener 2000 caracteres o menos."
+		}
 	}
 }

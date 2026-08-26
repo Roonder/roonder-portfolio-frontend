@@ -1,15 +1,36 @@
 {
 	"meta": {
-		"title": "Contact — Roonder Portfolio"
+		"title": "Contact — Roonder Portfolio",
+		"description": "Get in touch for project inquiries, press, or strategic collaborations."
+	},
+	"page": {
+		"title": "Initiate Contact",
+		"subtitle": "For project inquiries, press, or strategic collaborations.",
+		"intro": "Send a transmission and I'll get back to you within 48 hours.",
+		"success": "Transmission acknowledged. Expect a response within 48 hours."
 	},
 	"form": {
 		"name": "Name",
 		"email": "Email",
 		"subject": "Subject",
-		"message": "Message",
+		"body": "Message",
 		"submit": "Send Transmission",
+		"submitting": "Sending… ({{seconds}}s)",
+		"submittingShort": "Sending…",
 		"success": "Message sent. I'll respond soon.",
+		"error": "Something went wrong. Please try again.",
 		"throttled": "Too many submissions. Try again in {{seconds}} seconds.",
-		"network": "You appear to be offline."
+		"throttledGeneric": "Too many submissions. Please wait a moment and try again.",
+		"network": "You appear to be offline. Check your connection and retry.",
+		"validation": {
+			"nameMin": "Name must be at least 2 characters.",
+			"nameMax": "Name must be 80 characters or fewer.",
+			"emailRequired": "Email is required.",
+			"emailInvalid": "Invalid email.",
+			"subjectMin": "Subject must be at least 2 characters.",
+			"subjectMax": "Subject must be 120 characters or fewer.",
+			"messageMin": "Message must be at least 10 characters.",
+			"messageMax": "Message must be 2000 characters or fewer."
+		}
 	}
 }

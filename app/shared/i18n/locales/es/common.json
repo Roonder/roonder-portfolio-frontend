@@ -18,6 +18,9 @@
 	},
 	"error": {
 		"generic": "Algo salió mal.",
-		"network": "Parece que estás sin conexión."
+		"network": "Parece que estás sin conexión.",
+		"retry": "Reintentar",
+		"notFoundTitle": "Página no encontrada",
+		"notFoundBody": "La página que buscas no existe o se ha movido."
 	}
 }

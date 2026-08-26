@@ -1,0 +1,23 @@
+{
+	"hero": {
+		"headline": "Digital craftsmanship meets raw logic",
+		"subhead": "Specializing in high-performance systems, based on strong roots, polished processes and landed visions.",
+		"cta": "Initiate Contact"
+	},
+	"sections": {
+		"about": {
+			"title": "About",
+			"body": "I'm {{brand}} — a technical strategist focused on the intersection of robust engineering and editorial design."
+		},
+		"works": {
+			"title": "Selected Works"
+		},
+		"reviews": {
+			"title": "Client Voices"
+		},
+		"contact": {
+			"title": "Initiate Contact",
+			"cta": "Send Transmission"
+		}
+	}
+}

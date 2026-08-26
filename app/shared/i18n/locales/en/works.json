@@ -1,0 +1,23 @@
+{
+	"meta": {
+		"title": "Works — Roonder Portfolio"
+	},
+	"hero": {
+		"title": "Works",
+		"search": "Search projects"
+	},
+	"card": {
+		"viewDetails": "View Details",
+		"hours": "{{count}} hrs"
+	},
+	"filter": {
+		"all": "All",
+		"architecture": "Architecture",
+		"fintech": "FinTech",
+		"data": "Data"
+	},
+	"empty": {
+		"title": "No projects match",
+		"body": "Try a different search or category."
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"meta": {
+		"title": "Proyectos — Roonder Portfolio"
+	},
+	"hero": {
+		"title": "Proyectos",
+		"search": "Buscar proyectos"
+	},
+	"card": {
+		"viewDetails": "Ver Detalles",
+		"hours": "{{count}} hrs"
+	},
+	"filter": {
+		"all": "Todos",
+		"architecture": "Arquitectura",
+		"fintech": "FinTech",
+		"data": "Datos"
+	},
+	"empty": {
+		"title": "Ningún proyecto coincide",
+		"body": "Prueba con otra búsqueda o categoría."
+	}
+}

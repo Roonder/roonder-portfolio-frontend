@@ -1,0 +1,15 @@
+{
+	"meta": {
+		"title": "Contacto — Roonder Portfolio"
+	},
+	"form": {
+		"name": "Nombre",
+		"email": "Correo",
+		"subject": "Asunto",
+		"message": "Mensaje",
+		"submit": "Enviar Mensaje",
+		"success": "Mensaje enviado. Responderé pronto.",
+		"throttled": "Demasiados envíos. Intenta de nuevo en {{seconds}} segundos.",
+		"network": "Parece que estás sin conexión."
+	}
+}

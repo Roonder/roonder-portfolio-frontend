@@ -1,0 +1,23 @@
+{
+	"hero": {
+		"headline": "Artesanía digital con lógica pura",
+		"subhead": "Especializado en sistemas de alto rendimiento, con raíces sólidas, procesos pulidos y visiones concretadas.",
+		"cta": "Iniciar Contacto"
+	},
+	"sections": {
+		"about": {
+			"title": "Sobre Mí",
+			"body": "Soy {{brand}} — un estratega técnico enfocado en la intersección entre ingeniería robusta y diseño editorial."
+		},
+		"works": {
+			"title": "Proyectos Seleccionados"
+		},
+		"reviews": {
+			"title": "Voces de Clientes"
+		},
+		"contact": {
+			"title": "Iniciar Contacto",
+			"cta": "Enviar Mensaje"
+		}
+	}
+}

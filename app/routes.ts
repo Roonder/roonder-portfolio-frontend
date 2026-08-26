@@ -36,6 +36,13 @@ const publicRoutes = (lang: "en" | "es"): RouteConfigEntry[] => {
       route("contact", "routes/_public.contact.tsx", {
         id: id("_public.contact"),
       }),
+      // P0 smoke route (REMOVED in T-F-12). Lives under the public
+      // layout so it picks up the i18n seeding; lives at
+      // /p0-smoke (en) and /es/p0-smoke (es) — same surface the
+      // home page will live on.
+      route("p0-smoke", "routes/_public.p0-smoke.tsx", {
+        id: id("_public.p0-smoke"),
+      }),
     ]),
   ];
 };

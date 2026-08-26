@@ -10,13 +10,24 @@ import {
 
 import type { Route } from "./+types/root";
 import { useSessionStore } from "~/shared/stores/session";
+import { useLocaleStore } from "~/shared/stores/locale";
+// Side-effect import: initializes the i18next singleton so any
+// component that calls t(...) before the _public loader runs is
+// already wired up. Mirrors the useSessionStore.hydrate pattern
+// below.
+import "~/shared/i18n/side-effect";
 import "./app.css";
 
 export const links: Route.LinksFunction = () => [];
 
 export function Layout({ children }: { children: React.ReactNode }) {
+	// Read the active locale for the <html lang> attribute. The
+	// `_public.tsx` loader is what actually seeds the store on
+	// every navigation (REQ-I18N-9); this read here keeps the
+	// document attribute in sync after the store is populated.
+	const locale = useLocaleStore.getState().locale;
 	return (
-		<html lang="en">
+		<html lang={locale}>
 			<head>
 				<meta charSet="utf-8" />
 				<meta name="viewport" content="width=device-width, initial-scale=1" />

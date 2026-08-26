@@ -1,8 +1,28 @@
 {
+	"meta": {
+		"title": "Home — Roonder Portfolio",
+		"description": "Digital craftsmanship meets raw logic. The portfolio of Juliam Aponte."
+	},
 	"hero": {
 		"headline": "Digital craftsmanship meets raw logic",
 		"subhead": "Specializing in high-performance systems, based on strong roots, polished processes and landed visions.",
-		"cta": "Initiate Contact"
+		"cta": "Initiate Contact",
+		"ctaSecondary": "View Works"
+	},
+	"metrics": {
+		"activeWorks": "Active works shipped",
+		"retainedClients": "Retained clients",
+		"deliveredProjects": "Delivered projects"
+	},
+	"featured": {
+		"placeholder": "Cover image"
+	},
+	"about": {
+		"title": "About {{brand}}",
+		"body": "I'm {{brand}} — a technical strategist focused on the intersection of robust engineering and editorial design. I work with founders and product teams to ship systems that survive contact with reality.",
+		"stat1": "Active works",
+		"stat2": "Retained clients",
+		"stat3": "Delivered projects"
 	},
 	"sections": {
 		"about": {
@@ -17,7 +37,12 @@
 		},
 		"contact": {
 			"title": "Initiate Contact",
+			"subtitle": "Send a transmission — I'll respond within 48 hours.",
 			"cta": "Send Transmission"
 		}
+	},
+	"reviews": {
+		"comingSoon": "A public review form is coming soon. Until then, the voices below are from past clients.",
+		"empty": "No client voices yet — be the first."
 	}
 }

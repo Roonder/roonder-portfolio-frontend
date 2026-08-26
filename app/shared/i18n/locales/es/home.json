@@ -1,8 +1,28 @@
 {
+	"meta": {
+		"title": "Inicio — Roonder Portfolio",
+		"description": "Artesanía digital con lógica pura. Portafolio de Juliam Aponte."
+	},
 	"hero": {
 		"headline": "Artesanía digital con lógica pura",
 		"subhead": "Especializado en sistemas de alto rendimiento, con raíces sólidas, procesos pulidos y visiones concretadas.",
-		"cta": "Iniciar Contacto"
+		"cta": "Iniciar Contacto",
+		"ctaSecondary": "Ver Proyectos"
+	},
+	"metrics": {
+		"activeWorks": "Obras activas entregadas",
+		"retainedClients": "Clientes retenidos",
+		"deliveredProjects": "Proyectos entregados"
+	},
+	"featured": {
+		"placeholder": "Imagen de portada"
+	},
+	"about": {
+		"title": "Sobre {{brand}}",
+		"body": "Soy {{brand}} — un estratega técnico enfocado en la intersección entre ingeniería robusta y diseño editorial. Trabajo con fundadores y equipos de producto para enviar sistemas que sobreviven al contacto con la realidad.",
+		"stat1": "Obras activas",
+		"stat2": "Clientes retenidos",
+		"stat3": "Proyectos entregados"
 	},
 	"sections": {
 		"about": {
@@ -17,7 +37,12 @@
 		},
 		"contact": {
 			"title": "Iniciar Contacto",
+			"subtitle": "Envía una transmisión — responderé en 48 horas.",
 			"cta": "Enviar Mensaje"
 		}
+	},
+	"reviews": {
+		"comingSoon": "Próximamente un formulario público de reseñas. Mientras tanto, las voces abajo son de clientes pasados.",
+		"empty": "Aún no hay voces de clientes — sé el primero."
 	}
 }

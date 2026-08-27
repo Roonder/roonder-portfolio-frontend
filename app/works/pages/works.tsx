@@ -12,7 +12,7 @@
  * Experience" inside the drawer navigates to the canonical
  * `/works/:slug` URL (REQ-WORKS-5).
  */
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
 
@@ -51,11 +51,8 @@ export function WorksPage({ projects, className }: WorksPageProps) {
 
 	const setDrawer = useUIStore((s) => s.setDrawer);
 
-	const projectsBySlug = useMemo(() => {
-		const map: Record<string, Project> = {};
-		for (const project of projects) map[project.slug] = project;
-		return map;
-	}, [projects]);
+	const projectsBySlug: Record<string, Project> = {};
+	for (const project of projects) projectsBySlug[project.slug] = project;
 
 	const filtered = projects.filter((project) => {
 		const matchesQuery =

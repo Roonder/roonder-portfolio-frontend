@@ -55,12 +55,12 @@ export async function fetchHomeFeatured(
 ): Promise<HomeFeaturedData> {
 	const [projectsResult, reviewsResult] = await Promise.all([
 		serverFetch(request, {
-			url: '/api/v1/projects?featured=true&pageSize=10',
+			url: '/api/v1/projects?pageSize=10',
 			method: 'GET',
 			schema: featuredProjectsResponseSchema,
 		}),
 		serverFetch(request, {
-			url: '/api/v1/reviews?featured=true&pageSize=10',
+			url: '/api/v1/reviews?pageSize=10',
 			method: 'GET',
 			schema: featuredReviewsResponseSchema,
 		}),

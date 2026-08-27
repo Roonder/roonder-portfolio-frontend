@@ -34,8 +34,8 @@ export const swrKeys = {
 		 */
 		featured: () =>
 			[
-				'/api/v1/projects?featured=true',
-				'/api/v1/reviews?featured=true',
+				'/api/v1/projects?pageSize=10',
+				'/api/v1/reviews?pageSize=10',
 			] as const,
 		/**
 		 * `GET /api/v1/home/metrics` — BLOCKED-ON-BACKEND.

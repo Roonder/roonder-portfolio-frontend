@@ -25,6 +25,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	// `_public.tsx` loader is what actually seeds the store on
 	// every navigation (REQ-I18N-9); this read here keeps the
 	// document attribute in sync after the store is populated.
+	// On the server, we read from the store (which was set by the loader).
+	// On the client, we read from the store (which was hydrated from
+	// the serialized data).
 	const locale = useLocaleStore.getState().locale;
 	return (
 		<html lang={locale}>

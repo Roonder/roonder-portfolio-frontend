@@ -1,8 +1,25 @@
 import { Outlet } from "react-router";
 import type { Route } from "./+types/_public";
 
-import { i18next, initI18n, NAMESPACES, resolveLocaleFromPath } from "~/shared/i18n";
+import {
+	i18next,
+	initI18n,
+	NAMESPACES,
+	resolveLocaleFromPath,
+} from "~/shared/i18n";
 import { useLocaleStore } from "~/shared/stores/locale";
+
+// Import all locale resources to serialize them for the client
+import enCommon from "~/shared/i18n/locales/en/common.json";
+import enHome from "~/shared/i18n/locales/en/home.json";
+import enWorks from "~/shared/i18n/locales/en/works.json";
+import enContact from "~/shared/i18n/locales/en/contact.json";
+import enAdmin from "~/shared/i18n/locales/en/admin.json";
+
+import esCommon from "~/shared/i18n/locales/es/common.json";
+import esHome from "~/shared/i18n/locales/es/home.json";
+import esWorks from "~/shared/i18n/locales/es/works.json";
+import esContact from "~/shared/i18n/locales/es/contact.json";
 
 /**
  * Public surface layout.
@@ -12,6 +29,7 @@ import { useLocaleStore } from "~/shared/stores/locale";
  * - Initialize i18next with the correct locale and seed the
  *   useLocaleStore mirror so child loaders and components read
  *   the active locale synchronously (REQ-I18N-9).
+ * - Serialize i18n resources for client hydration.
  * - Render the matched child route.
  *
  * The `data-lang` attribute lets the subtree read the current
@@ -37,7 +55,25 @@ export async function loader({ request }: Route.LoaderArgs) {
 	if (typeof document !== 'undefined') {
 		document.documentElement.lang = lang;
 	}
-	return { lang };
+	// Serialize i18n resources for client hydration. The client needs
+	// these resources to avoid re-fetching them and to ensure i18next
+	// is initialized with the correct translations before React hydrates.
+	const resources = {
+		en: {
+			common: enCommon,
+			home: enHome,
+			works: enWorks,
+			contact: enContact,
+			admin: enAdmin,
+		},
+		es: {
+			common: esCommon,
+			home: esHome,
+			works: esWorks,
+			contact: esContact,
+		},
+	};
+	return { lang, resources };
 }
 
 export function meta() {
@@ -50,6 +86,12 @@ export function meta() {
 export default function PublicLayout({ loaderData }: Route.ComponentProps) {
 	return (
 		<div data-lang={loaderData.lang}>
+			{/* Serialize i18n resources for client hydration */}
+			<script
+				dangerouslySetInnerHTML={{
+					__html: `window.__I18N_RESOURCES__ = ${JSON.stringify(loaderData.resources)}; window.__I18N_LOCALE__ = ${JSON.stringify(loaderData.lang)};`,
+				}}
+			/>
 			<Outlet />
 		</div>
 	);

@@ -19,7 +19,7 @@ export type HeroProfileCardProps = {
 };
 
 export function HeroProfileCard({ className }: HeroProfileCardProps) {
-	const { t } = useTranslation();
+	const { t } = useTranslation(['common', 'home']);
 
 	return (
 		<BentoCell

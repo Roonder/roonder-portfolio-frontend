@@ -68,7 +68,7 @@ export function initI18n(initialLocale: Locale = DEFAULT_LOCALE): Promise<I18nIn
 		lng: initialLocale,
 		fallbackLng: DEFAULT_LOCALE,
 		ns: [...NAMESPACES],
-		defaultNS: DEFAULT_NAMESPACE,
+		defaultNS: [...NAMESPACES],
 		interpolation: {
 			escapeValue: false,
 		},

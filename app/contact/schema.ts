@@ -16,8 +16,8 @@ export const contactSchema = z.object({
 	name: z
 		.string()
 		.trim()
-		.min(2, 'contact.form.validation.nameMin')
-		.max(80, 'contact.form.validation.nameMax'),
+		.min(1, 'contact.form.validation.nameMin')
+		.max(100, 'contact.form.validation.nameMax'),
 	email: z
 		.string()
 		.trim()
@@ -26,13 +26,13 @@ export const contactSchema = z.object({
 	subject: z
 		.string()
 		.trim()
-		.min(2, 'contact.form.validation.subjectMin')
-		.max(120, 'contact.form.validation.subjectMax'),
+		.min(1, 'contact.form.validation.subjectMin')
+		.max(150, 'contact.form.validation.subjectMax'),
 	message: z
 		.string()
 		.trim()
-		.min(10, 'contact.form.validation.messageMin')
-		.max(2000, 'contact.form.validation.messageMax'),
+		.min(1, 'contact.form.validation.messageMin')
+		.max(5000, 'contact.form.validation.messageMax'),
 });
 
 export type ContactFormValues = z.infer<typeof contactSchema>;

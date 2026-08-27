@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import type { Route } from "./+types/_public";
 
-import { i18next, initI18n, resolveLocaleFromPath } from "~/shared/i18n";
+import { i18next, initI18n, NAMESPACES, resolveLocaleFromPath } from "~/shared/i18n";
 import { useLocaleStore } from "~/shared/stores/locale";
 
 /**
@@ -28,6 +28,11 @@ export async function loader({ request }: Route.LoaderArgs) {
 	// because the language change hasn't completed yet.
 	await initI18n();
 	await i18next.changeLanguage(lang);
+	// Ensure all namespaces are loaded before rendering. Without this,
+	// components that use keys from non-default namespaces (e.g.
+	// "home.hero.subhead") may render raw keys if the namespace hasn't
+	// been loaded yet.
+	await i18next.loadNamespaces([...NAMESPACES]);
 	useLocaleStore.getState().setLocaleMirror(lang);
 	if (typeof document !== 'undefined') {
 		document.documentElement.lang = lang;

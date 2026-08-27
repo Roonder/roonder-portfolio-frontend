@@ -1,0 +1,123 @@
+<html class="dark" lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/><link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-primary-fixed-variant": "#574500", "primary-fixed": "#ffe088", "inverse-primary": "#735c00", "on-error": "#690005", "secondary": "#aecfaf", "surface-container-low": "#1c1b1c", "secondary-fixed-dim": "#aecfaf", "tertiary-fixed": "#e5e2e3", "primary-fixed-dim": "#e9c349", "surface": "#131314", "on-secondary-container": "#a0c1a2", "inverse-on-surface": "#313031", "surface-container-lowest": "#0e0e0f", "on-surface": "#e5e2e3", "on-tertiary-fixed-variant": "#474647", "surface-container": "#201f20", "secondary-container": "#335037", "on-secondary": "#1a3620", "on-primary-container": "#554300", "tertiary": "#d0cdce", "primary": "#f2ca50", "on-tertiary": "#303031", "error": "#ffb4ab", "outline": "#99907c", "inverse-surface": "#e5e2e3", "tertiary-container": "#b4b2b3", "background": "#131314", "surface-variant": "#353436", "on-tertiary-container": "#454546", "on-secondary-fixed": "#04210d", "on-background": "#e5e2e3", "on-surface-variant": "#d0c5af", "on-error-container": "#ffdad6", "surface-dim": "#131314", "surface-tint": "#e9c349", "surface-container-highest": "#353436", "surface-bright": "#39393a", "outline-variant": "#4d4635", "on-primary-fixed": "#241a00", "surface-container-high": "#2a2a2b", "primary-container": "#d4af37", "error-container": "#93000a", "secondary-fixed": "#c9ebca", "on-tertiary-fixed": "#1b1b1c", "on-primary": "#3c2f00", "tertiary-fixed-dim": "#c8c6c7", "on-secondary-fixed-variant": "#304d35" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter": "24px", "margin": "40px", "unit": "8px", "bento-gap": "16px", "container-max": "1280px" }, "fontFamily": { "display": ["Hanken Grotesk"], "headline-lg-mobile": ["Hanken Grotesk"], "display-mobile": ["Hanken Grotesk"], "label-caps": ["Hanken Grotesk"], "headline-md": ["Hanken Grotesk"], "body-lg": ["Hanken Grotesk"], "headline-lg": ["Hanken Grotesk"], "body-sm": ["Hanken Grotesk"] }, "fontSize": { "display": ["68px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "600" }], "headline-lg-mobile": ["32px", { "lineHeight": "1.2", "fontWeight": "500" }], "display-mobile": ["42px", { "lineHeight": "1.1", "fontWeight": "600" }], "label-caps": ["12px", { "lineHeight": "1", "letterSpacing": "0.1em", "fontWeight": "600" }], "headline-md": ["26px", { "lineHeight": "1.3", "fontWeight": "500" }], "body-lg": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }], "headline-lg": ["42px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "500" }], "body-sm": ["14px", { "lineHeight": "1.6", "fontWeight": "400" }] } } } };</script><style>@layer base { body { @apply bg-surface text-on-surface font-body-lg text-body-lg; -webkit-tap-highlight-color: transparent; } .pt-safe { padding-top: env(safe-area-inset-top); } .pb-safe { padding-bottom: env(safe-area-inset-bottom); } } .drawer-open #side-drawer { transform: translateX(0); } .drawer-open #drawer-overlay { opacity: 1; pointer-events: auto; } </style></head><body class="min-h-screen flex flex-col"><div class="fixed inset-0 z-[60] bg-black/60 opacity-0 pointer-events-none transition-opacity duration-300" id="drawer-overlay" onclick="document.body.classList.remove('drawer-open')"></div><aside class="fixed inset-y-0 left-0 z-[70] w-72 bg-surface-container-high -translate-x-full transition-transform duration-300 ease-out shadow-[10px_0_40px_rgba(0,0,0,0.4)] flex flex-col" id="side-drawer"><div class="p-gutter flex items-center gap-unit"><img alt="Profile" class="w-10 h-10 rounded-full object-cover ring-1 ring-primary/20" src="https://lh3.googleusercontent.com/aida/AEtjO1XD39ShvtApxqMBWxvLDWfqEm152NQu_nZ5vtsQs2mOwI2bmDNbtYiAivioTnCX2EeeIbgSMsoDGuRT8ImVtopq-PtKHZ9MdMxtqn0aXX2Kyejz6LFcXbxebiovP1OtXjoUzes0JjQ2_fabdC2TwmB4RWWdiBZVPSIxgEegqSIGj9zfBc-d01KNeW2Ue5tLg1ktyhOlvrGgF3QPI3LUve46odkTS_WEwV7-VSEua7tnz5cpQWv81YHJTFel4W1QL8bJHy1ha1Uxgg"/><div class="flex flex-col"><span class="font-label-caps text-label-caps text-primary uppercase">Creative Portfolio</span><span class="font-headline-md text-body-lg font-bold">Alex Rivers</span></div></div><nav class="flex-1 px-4 py-8 flex flex-col gap-2" data-active-classes="bg-primary/10 text-primary"><a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant hover:bg-surface-variant transition-colors" data-path="home" href="#"><span class="material-symbols-outlined">home</span><span class="font-headline-md text-body-lg">Home</span></a><a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant hover:bg-surface-variant transition-colors" data-path="works" href="#"><span class="material-symbols-outlined">grid_view</span><span class="font-headline-md text-body-lg">Works</span></a><a class="flex items-center gap-4 p-4 rounded-xl text-on-surface-variant hover:bg-surface-variant transition-colors" data-path="contact" href="#"><span class="material-symbols-outlined">mail</span><span class="font-headline-md text-body-lg">Contact</span></a><div class="mt-auto border-t border-outline-variant pt-4"><a aria-current="page" class="flex items-center gap-4 p-4 rounded-xl transition-colors bg-primary/10 text-primary" data-path="admin" href="#"><span class="material-symbols-outlined">admin_panel_settings</span><span class="font-headline-md text-body-lg">Admin</span></a></div></nav></aside><header class="fixed top-0 w-full z-50 bg-surface/80 backdrop-blur-xl pt-safe shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-between"><button class="w-11 h-11 flex items-center justify-center rounded-full bg-surface-container hover:bg-surface-container-high transition-colors text-on-surface" onclick="document.body.classList.add('drawer-open')"><span class="material-symbols-outlined">menu</span></button><span class="font-label-caps text-label-caps text-on-surface-variant tracking-[0.2em] uppercase">Admin</span><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1XD39ShvtApxqMBWxvLDWfqEm152NQu_nZ5vtsQs2mOwI2bmDNbtYiAivioTnCX2EeeIbgSMsoDGuRT8ImVtopq-PtKHZ9MdMxtqn0aXX2Kyejz6LFcXbxebiovP1OtXjoUzes0JjQ2_fabdC2TwmB4RWWdiBZVPSIxgEegqSIGj9zfBc-d01KNeW2Ue5tLg1ktyhOlvrGgF3QPI3LUve46odkTS_WEwV7-VSEua7tnz5cpQWv81YHJTFel4W1QL8bJHy1ha1Uxgg"/></div></header><main class="flex-1 pt-16 bg-surface relative"><div class="flex flex-col w-full px-gutter py-gutter gap-margin">
+<div class="flex justify-between items-end">
+<div>
+<h1 class="font-headline-md text-headline-md text-on-surface">Dashboard</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-1">Manage your creative business</p>
+</div>
+<div class="flex gap-unit">
+<button class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface hover:bg-surface-variant transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<button class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-on-primary hover:bg-primary-fixed transition-colors">
+<span class="material-symbols-outlined">add</span>
+</button>
+</div>
+</div>
+<div class="flex overflow-x-auto hide-scrollbar gap-unit -mx-gutter px-gutter pb-2 snap-x">
+<button class="snap-start flex-none px-6 py-3 rounded-full bg-primary text-on-primary font-label-caps text-label-caps tracking-widest uppercase transition-all duration-300" id="tab-projects" onclick="switchTab('projects')">Projects</button>
+<button class="snap-start flex-none px-6 py-3 rounded-full bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps tracking-widest uppercase transition-all duration-300" id="tab-reviews" onclick="switchTab('reviews')">Reviews</button>
+<button class="snap-start flex-none px-6 py-3 rounded-full bg-surface-container-high text-on-surface-variant font-label-caps text-label-caps tracking-widest uppercase transition-all duration-300" id="tab-inbox" onclick="switchTab('inbox')">
+      Inbox
+      <span class="ml-2 inline-flex items-center justify-center w-5 h-5 rounded-full bg-error text-on-error text-[10px] font-bold">3</span>
+</button>
+</div>
+<div class="flex flex-col gap-bento-gap transition-opacity duration-300" id="content-projects">
+<div class="p-6 rounded-2xl bg-surface-container shadow-sm relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none"></div>
+<div class="absolute top-0 left-0 w-full h-[1px] bg-white/[0.1]"></div>
+<div class="absolute top-0 left-0 w-[1px] h-full bg-white/[0.1]"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-[10px] text-primary tracking-widest uppercase">Active • Due Oct 12</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface mb-2">Aura Brand Identity</h3>
+<div class="flex items-center justify-between mt-6">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface text-[10px] font-bold ring-2 ring-surface-container z-10">C1</div>
+<div class="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant text-[10px] ring-2 ring-surface-container">+2</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-24 h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[65%] rounded-full"></div>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">65%</span>
+</div>
+</div>
+</div>
+<div class="p-6 rounded-2xl bg-surface-container shadow-sm relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-br from-white/[0.02] to-transparent pointer-events-none"></div>
+<div class="absolute top-0 left-0 w-full h-[1px] bg-white/[0.1]"></div>
+<div class="absolute top-0 left-0 w-[1px] h-full bg-white/[0.1]"></div>
+<div class="flex justify-between items-start mb-4">
+<span class="font-label-caps text-[10px] text-secondary tracking-widest uppercase">Review • Due Oct 15</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors"><span class="material-symbols-outlined">more_vert</span></button>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface mb-2">Lumina App Design</h3>
+<div class="flex items-center justify-between mt-6">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full bg-surface-container-high flex items-center justify-center text-on-surface text-[10px] font-bold ring-2 ring-surface-container z-10">D3</div>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-24 h-1 bg-surface-container-highest rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[90%] rounded-full"></div>
+</div>
+<span class="font-label-caps text-[10px] text-on-surface-variant">90%</span>
+</div>
+</div>
+</div>
+</div>
+<div class="hidden flex-col gap-bento-gap transition-opacity duration-300 opacity-0" id="content-reviews">
+<div class="flex flex-col items-center justify-center py-12 text-center">
+<div class="w-20 h-20 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant mb-4">
+<span class="material-symbols-outlined text-[32px]">rate_review</span>
+</div>
+<h3 class="font-headline-md text-[20px] text-on-surface mb-2">No Pending Reviews</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-[200px]">All client feedback has been addressed. Great job!</p>
+</div>
+</div>
+<div class="hidden flex-col gap-bento-gap transition-opacity duration-300 opacity-0" id="content-inbox">
+<div class="p-6 rounded-2xl bg-surface-container-high shadow-sm relative overflow-hidden group">
+<div class="absolute left-0 top-0 w-1 h-full bg-primary"></div>
+<div class="flex justify-between items-start mb-2">
+<span class="font-label-caps text-[10px] text-on-surface-variant tracking-widest uppercase">New Inquiry</span>
+<span class="font-label-caps text-[10px] text-on-surface-variant">2h ago</span>
+</div>
+<h3 class="font-headline-md text-[18px] text-on-surface mb-1">Sarah Jenkins</h3>
+<p class="font-body-sm text-[14px] text-on-surface-variant line-clamp-2">Looking for a portfolio redesign. I love the minimalist approach you took with the Aura project and was wondering if...</p>
+</div>
+</div>
+<style>
+    .hide-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .hide-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+<script>
+    function switchTab(tabId) {
+      const tabs = ['projects', 'reviews', 'inbox'];
+      
+      tabs.forEach(tab => {
+        const btn = document.getElementById(`tab-${tab}`);
+        const content = document.getElementById(`content-${tab}`);
+        
+        if (tab === tabId) {
+          btn.classList.replace('bg-surface-container-high', 'bg-primary');
+          btn.classList.replace('text-on-surface-variant', 'text-on-primary');
+          
+          content.classList.remove('hidden');
+          setTimeout(() => content.classList.remove('opacity-0'), 50);
+        } else {
+          btn.classList.replace('bg-primary', 'bg-surface-container-high');
+          btn.classList.replace('text-on-primary', 'text-on-surface-variant');
+          
+          content.classList.add('opacity-0');
+          setTimeout(() => content.classList.add('hidden'), 300);
+        }
+      });
+    }
+  </script>
+</div></main><footer class="fixed bottom-0 w-full z-50 pb-safe bg-surface/80 backdrop-blur-xl shadow-[0_-1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 px-gutter flex items-center justify-around"><a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" data-path="home" href="#"><span class="material-symbols-outlined">home</span><span class="text-[10px] font-label-caps uppercase mt-1">Home</span></a><a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" data-path="works" href="#"><span class="material-symbols-outlined">palette</span><span class="text-[10px] font-label-caps uppercase mt-1">Works</span></a><a class="flex flex-col items-center justify-center text-on-surface-variant hover:text-primary transition-colors" data-path="contact" href="#"><span class="material-symbols-outlined">send</span><span class="text-[10px] font-label-caps uppercase mt-1">Reach Out</span></a></div></footer></body></html>

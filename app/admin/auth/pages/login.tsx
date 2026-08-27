@@ -100,16 +100,18 @@ export default function LoginPage() {
 	});
 
 	return (
-		<main className="container mx-auto flex min-h-svh items-center justify-center px-4 py-12">
+		<main className="flex min-h-svh items-center justify-center bg-background px-4 py-12">
 			<form
 				method="post"
 				action="/admin/auth"
 				onSubmit={onSubmit}
-				className="w-full max-w-sm space-y-6"
+				className="w-full max-w-sm space-y-6 rounded-2xl border border-outline-variant/40 bg-surface-container-low p-8 shadow-[0_0_30px_rgba(212,175,55,0.04)]"
 				noValidate
 			>
 				<header className="space-y-1 text-center">
-					<h1 className="text-2xl font-semibold tracking-tight">Sign in</h1>
+					<h1 className="font-display text-2xl font-semibold tracking-tight text-on-surface">
+						Sign in
+					</h1>
 					<p className="text-sm text-muted-foreground">
 						Admin access to the portfolio.
 					</p>
@@ -168,7 +170,12 @@ export default function LoginPage() {
 					<FormError error={error} />
 				) : null}
 
-				<Button type="submit" disabled={isSubmitting} className={cn('w-full')}>
+				<Button
+					type="submit"
+					size="lg"
+					disabled={isSubmitting}
+					className={cn('w-full font-semibold tracking-wide')}
+				>
 					{isSubmitting ? 'Signing in…' : 'Sign in'}
 				</Button>
 			</form>

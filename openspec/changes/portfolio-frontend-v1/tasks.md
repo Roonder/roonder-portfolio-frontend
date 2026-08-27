@@ -464,7 +464,7 @@ P0 MUST be reviewable in isolation. The home route after P0 lands renders the ex
 > **Branch**: `feat/portfolio-frontend-v1/admin` off `main` (after P1 lands).
 > **Goal**: fill the admin surface. Re-skin the login to Aurelian visuals (no behavior change — locked `admin-auth` spec is untouched per REQ-ADM-8). Wire the overview widget, projects list, new, edit, delete. Add the mobile tab bar.
 
-### T-A-1 — Re-skin `/admin/auth` login page to Aurelian visuals (no behavior change)
+### [x] T-A-1 — Re-skin `/admin/auth` login page to Aurelian visuals (no behavior change)
 
 - **Files**: `app/admin/auth/pages/login.tsx` (modified — page background `bg-background`; submit button `bg-primary`; input `bg-input`; focus ring `ring-ring`; all `--rndr-*` references gone), `app/admin/auth/components/` (any new visual components added).
 - **What**: a visual-only refresh. The form's behavior is unchanged (per Q-resolution 15.4 and REQ-ADM-8). The locked `admin-auth` spec is NOT modified. The change is a token swap: `bg-background`, `bg-primary`, `bg-input`, `ring-ring` from the Aurelian theme.
@@ -479,7 +479,7 @@ P0 MUST be reviewable in isolation. The home route after P0 lands renders the ex
 - **Spec REQs**: REQ-ADM-8.
 - **Test note (manual smoke)**: navigate to `/admin/auth`; assert the page background is Aurelian obsidian; assert the submit button is Aurelian Gold; sign in with valid creds; assert navigation to `/admin`; sign out; assert the locked `admin-auth` flow still works.
 
-### T-A-2 — Admin projects schema + `AdminProjectForm` molecule (the long form)
+### [x] T-A-2 — Admin projects schema + `AdminProjectForm` molecule (the long form)
 
 - **Files**: `app/admin/projects/schema.ts` (new — `adminProjectSchema` per REQ-ADM-4: `title` (1–200), `slug` (1–120, regex `^[a-z0-9-]+$`), `description` (1–500), `content` (optional), `coverImage` (URL with `http`/`https` protocol, optional), `tags` (array of non-empty strings, normalized via trim + lowercase + dedupe, optional), `isPublished` (boolean, default `false`), `urls` (array of `{ title, url }`, intra-array dedupe, optional); exports `AdminProjectValues = z.infer<typeof adminProjectSchema>`), `app/admin/projects/molecules/admin-project-form.tsx` (new — the long form per REQ-ADM-4: 8 fields; uses `useForm` + `zodResolver(adminProjectSchema)`; submits via `fetcher.submit` to the route's `action`; renders per-field errors from the typed `ApiError`; the `coverImage` is a URL input, not a file upload; the `urls` is a JSON textarea (one per line, parsed to `{ title, url }`)), `app/admin/projects/molecules/admin-project-confirm-modal.tsx` (new — the delete confirm modal per REQ-ADM-3 scenario "Delete requires confirm"; uses the new shadcn `Dialog` primitive from T-F-7).
 - **What**: the form schema is the single source of truth for both create and edit. The molecule is the SAME for `/admin/projects/new` and `/admin/projects/:id` (REQ-ADM-2 + REQ-ADM-3). The delete confirm modal is a separate molecule consumed only by the edit page.
@@ -493,7 +493,7 @@ P0 MUST be reviewable in isolation. The home route after P0 lands renders the ex
 - **Spec REQs**: REQ-ADM-2, REQ-ADM-3, REQ-ADM-4.
 - **Test note (manual smoke)**: render the form in a temporary `/admin/_p2-smoke` route; fill the form with bad data; assert per-field errors.
 
-### T-A-3 — Admin projects list route (`/admin/projects`)
+### [x] T-A-3 — Admin projects list route (`/admin/projects`)
 
 - **Files**: `app/admin/projects/atoms/admin-project-status-badge.tsx` (new — the Published / Draft pill), `app/admin/projects/molecules/admin-project-card.tsx` (new — the admin card per `admin_console/code.html:33-94`; image + status badge + Edit / Delete buttons), `app/admin/projects/organisms/projects-list.tsx` (new — composes the page title + `New Project` CTA + filter row + grid of `AdminProjectCard`s), `app/admin/projects/pages/list.tsx` (new — the page module), `app/admin/projects/api/projects.ts` (new — `getAdminProjects({ request })` that calls `serverFetch('GET /api/v1/admin/projects?page=<n>&pageSize=20&status=<s>')`; `getAdminProjectById({ request, id })`; `createProjectAction`, `updateProjectAction`, `deleteProjectAction`), `app/routes/admin.projects._index.tsx` (modified — replace the TODO with the real `loader`, `meta()` (with `noindex, nofollow` per REQ-ADM-10), page re-export, ErrorBoundary per REQ-ADM-9).
 - **What**: the admin projects list per REQ-ADM-1. The loader fetches the admin list with `page` + `status` query params. The page renders the `New Project` CTA + the filter row + the grid. The 401 from the backend is handled by the locked `admin-auth` gate (REQ-ADM-7); the projects route does NOT redirect on its own.
@@ -509,7 +509,7 @@ P0 MUST be reviewable in isolation. The home route after P0 lands renders the ex
 - **Spec REQs**: REQ-ADM-1, REQ-ADM-5, REQ-ADM-7, REQ-ADM-9, REQ-ADM-10.
 - **Test note (manual smoke)**: sign in; navigate to `/admin/projects`; assert the list renders; click `Draft`; assert the list narrows; click `New Project`; assert navigation to `/admin/projects/new`; view source; assert `<meta name="robots" content="noindex, nofollow">`.
 
-### T-A-4 — Admin project new route (`/admin/projects/new`)
+### [x] T-A-4 — Admin project new route (`/admin/projects/new`)
 
 - **Files**: `app/admin/projects/pages/new.tsx` (new — the page module that renders the `AdminProjectForm` with an empty initial state), `app/admin/projects/organisms/project-form-organism.tsx` (new — the form shell that wraps the molecule; consumed by both new + edit), `app/routes/admin.projects.new.tsx` (modified — replace the TODO with the real `action` (re-exported from `app/admin/projects/api/projects.ts`: on 201 calls `mutate(swrKeys.admin.projects.list())` AND `redirect('/admin/projects/' + newId)` per REQ-ADM-2 scenario "Happy path creates and redirects"), the page re-export, `meta()` with `noindex, nofollow`).
 - **What**: the create form per REQ-ADM-2. The action POSTs to `POST /api/v1/admin/projects`, invalidates the SWR list, and redirects to the edit page. The 409 (duplicate slug) is rendered inline via the typed `ApiError` (REQ-ADM-2 scenario "409 on duplicate slug"). The 400 with field errors is rendered per-field (REQ-ADM-2 scenario "400 with field errors").
@@ -526,7 +526,7 @@ P0 MUST be reviewable in isolation. The home route after P0 lands renders the ex
 - **Spec REQs**: REQ-ADM-2.
 - **Test note (manual smoke)**: sign in; navigate to `/admin/projects/new`; fill the form with valid data; submit; assert redirect to `/admin/projects/<newId>`; go back to `/admin/projects`; assert the new project is in the list.
 
-### T-A-5 — Admin project edit + delete route (`/admin/projects/:id`)
+### [x] T-A-5 — Admin project edit + delete route (`/admin/projects/:id`)
 
 - **Files**: `app/admin/projects/pages/edit.tsx` (new — the page module that renders the `AdminProjectForm` pre-filled with the loader's data), `app/routes/admin.projects.$id.tsx` (modified — replace the TODO with the real `loader` (per REQ-ADM-3, calls `getAdminProjectById`), the `action` (supports PATCH + DELETE via `_method` discriminator in `FormData`; PATCH on 200 invalidates both `swrKeys.admin.projects.list()` AND `swrKeys.admin.projects.byId(id)` and redirects to `/admin/projects`; DELETE on 204 invalidates the list and redirects), the page re-export, `meta()` with `noindex, nofollow`, the ErrorBoundary for 404 per REQ-ADM-3 scenario "404 from the backend renders the not-found UI").
 - **What**: the edit form per REQ-ADM-3. The form is pre-populated from the loader. The action supports PATCH (save) AND DELETE (with the confirm modal from T-A-2). The `_method` discriminator is the standard React Router 8 pattern.
@@ -542,7 +542,7 @@ P0 MUST be reviewable in isolation. The home route after P0 lands renders the ex
 - **Spec REQs**: REQ-ADM-3, REQ-ADM-5.
 - **Test note (manual smoke)**: sign in; navigate to `/admin/projects/<id>`; change the title; save; assert redirect to `/admin/projects`; assert the new title is in the list; click `Delete` on the same project; confirm; assert the project is gone.
 
-### T-A-6 — Admin overview widget (`/admin`) + mobile tab bar (Projects / Reviews / Inbox)
+### [x] T-A-6 — Admin overview widget (`/admin`) + mobile tab bar (Projects / Reviews / Inbox)
 
 - **Files**: `app/admin/projects/molecules/admin-stat-card.tsx` (new — the `Active Works` stat card per the design; uses the `AdminStatCard` molecule from P0; the value falls back to `{ activeWorks: 24, delta: '+3 this month' }` per REQ-ADM-11 with a `// TODO(admin-projects): wire to live stats` comment), `app/admin/projects/pages/overview.tsx` (new — the page module: composes `AdminHeader` + `AdminSidebar` + `AdminWelcomeCard` + `AdminStatCard` (Active Works, fallback) + a 3-card projects grid from `swrKeys.admin.projects.list({ limit: 3 })` + Inbox widget placeholder (deferred) + Reviews widget placeholder (deferred)), `app/admin/overview/` (new directory, the placeholder structure for inbox + reviews widgets), `app/routes/admin._index.tsx` (modified — replace the TODO with the real `loader` (fetches the active-works stats + top 3 projects), `meta()` with `noindex, nofollow`, page re-export, ErrorBoundary per REQ-ADM-9), `app/shared/ui/molecules/mobile-tab-bar.tsx` (modified from P0 — wire the `useUIStore.activeAdminTab` slice; tap on `Reviews` or `Inbox` pushes a `useToastStore.push({ kind: 'info', message: t('admin.comingSoon') })`), `app/routes/admin.tsx` (modified — add the `MobileTabBar` to the admin layout for viewports `< 768px`).
 - **What**: the admin overview per REQ-ADM-11 (active works stats with fallback), plus the mobile tab bar per REQ-ADM-6. The inbox + reviews widgets are placeholders (deferred per Q-3 / Q-20); the mobile tab bar shows the 3 pills and toasts "Coming soon" on the placeholders.
@@ -559,7 +559,7 @@ P0 MUST be reviewable in isolation. The home route after P0 lands renders the ex
 - **Spec REQs**: REQ-ADM-6, REQ-ADM-11.
 - **Test note (manual smoke)**: sign in; navigate to `/admin`; assert the overview renders; resize the browser to mobile width; assert the `MobileTabBar` is visible; tap `Reviews`; assert the toast; navigate to `/admin/projects`; assert the `Projects` pill is still active.
 
-### T-A-7 — P2 verification: typecheck + smoke gate + per-route manual smoke
+### [x] T-A-7 — P2 verification: typecheck + smoke gate + per-route manual smoke
 
 - **Files**: `openspec/changes/portfolio-frontend-v1/apply-progress.md` (modified — append the P2 completion record; mark the change `apply-complete`).
 - **What**:

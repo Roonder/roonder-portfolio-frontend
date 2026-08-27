@@ -3,13 +3,16 @@
  *
  * Three tabs: Projects / Reviews / Inbox. Per locked decision
  * Q-3/Q-20, only Projects is wired in v1; Reviews and Inbox are
- * placeholders that read a TODO comment in the verify report.
+ * placeholders that push a "Coming soon" toast (REQ-ADM-6).
  */
 import { Folder, Mail, Star } from 'lucide-react';
+import { useNavigate } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 import { cn } from '~/shared/lib/cn';
 
 import { useUIStore, type AdminTab } from '~/shared/stores/ui';
+import { useToastStore } from '~/shared/stores/toasts';
 
 export type MobileTabBarProps = {
 	className?: string;
@@ -19,17 +22,32 @@ type TabDef = {
 	id: AdminTab;
 	label: string;
 	Icon: typeof Folder;
+	to: string;
 };
 
 const TABS: TabDef[] = [
-	{ id: 'projects', label: 'Projects', Icon: Folder },
-	{ id: 'reviews', label: 'Reviews', Icon: Star },
-	{ id: 'inbox', label: 'Inbox', Icon: Mail },
+	{ id: 'projects', label: 'Projects', Icon: Folder, to: '/admin/projects' },
+	{ id: 'reviews', label: 'Reviews', Icon: Star, to: '/admin/reviews' },
+	{ id: 'inbox', label: 'Inbox', Icon: Mail, to: '/admin/contact' },
 ];
 
 export function MobileTabBar({ className }: MobileTabBarProps) {
 	const active = useUIStore((s) => s.activeAdminTab);
 	const setActive = useUIStore((s) => s.setActiveAdminTab);
+	const pushToast = useToastStore((s) => s.push);
+	const navigate = useNavigate();
+	const { t } = useTranslation();
+
+	function handleTabClick(tab: TabDef) {
+		setActive(tab.id);
+		if (tab.id === 'projects') {
+			navigate(tab.to);
+		} else {
+			// Reviews and Inbox are placeholders (Q-3 / Q-20)
+			pushToast({ kind: 'info', message: t('admin.comingSoon') });
+		}
+	}
+
 	return (
 		<nav
 			aria-label="Admin sections"
@@ -39,13 +57,13 @@ export function MobileTabBar({ className }: MobileTabBarProps) {
 				className,
 			)}
 		>
-			{TABS.map(({ id, label, Icon }) => {
-				const isActive = active === id;
+			{TABS.map((tab) => {
+				const isActive = active === tab.id;
 				return (
 					<button
-						key={id}
+						key={tab.id}
 						type="button"
-						onClick={() => setActive(id)}
+						onClick={() => handleTabClick(tab)}
 						aria-pressed={isActive}
 						className={cn(
 							'inline-flex h-12 w-full flex-col items-center justify-center gap-0.5 text-xs font-semibold uppercase tracking-widest transition-colors',
@@ -54,8 +72,8 @@ export function MobileTabBar({ className }: MobileTabBarProps) {
 								: 'text-muted-foreground hover:text-primary',
 						)}
 					>
-						<Icon className="size-5" aria-hidden="true" />
-						<span>{label}</span>
+						<tab.Icon className="size-5" aria-hidden="true" />
+						<span>{tab.label}</span>
 					</button>
 				);
 			})}

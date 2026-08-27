@@ -10,11 +10,86 @@
 		"throttled": "Too many attempts. Try again in {{seconds}} seconds.",
 		"network": "You appear to be offline."
 	},
+	"overview": {
+		"title": "Dashboard",
+		"welcome": "Welcome back",
+		"welcomeBody": "Manage your projects, reviews, and inbox from here.",
+		"activeWorks": "Active Works",
+		"reviews": "Reviews",
+		"inbox": "Inbox",
+		"comingSoon": "Coming soon",
+		"recentProjects": "Recent Projects"
+	},
 	"projects": {
 		"list": {
 			"title": "Projects",
 			"new": "New Project",
-			"empty": "No projects yet."
+			"empty": "No projects yet.",
+			"emptyBody": "Create your first project to get started.",
+			"filterAll": "All",
+			"filterPublished": "Published",
+			"filterDraft": "Draft"
+		},
+		"new": {
+			"title": "New Project",
+			"back": "Back to projects",
+			"submit": "Create Project",
+			"submitting": "Saving…"
+		},
+		"edit": {
+			"title": "Edit Project",
+			"back": "Back to projects",
+			"submit": "Update Project",
+			"submitting": "Saving…",
+			"delete": "Delete",
+			"deleteConfirm": "Delete project",
+			"deleteMessage": "Are you sure you want to delete \"{{title}}\"? This action cannot be undone.",
+			"cancel": "Cancel",
+			"confirm": "Confirm",
+			"deleting": "Deleting…",
+			"notFound": "Project not found"
+		},
+		"form": {
+			"title": "Title",
+			"slug": "Slug",
+			"description": "Description",
+			"content": "Content",
+			"coverImage": "Cover Image URL",
+			"tags": "Tags",
+			"published": "Published",
+			"urls": "URLs",
+			"urlsHint": "one per line: title | url",
+			"titlePlaceholder": "Project title",
+			"slugPlaceholder": "project-slug",
+			"descriptionPlaceholder": "Short description",
+			"contentPlaceholder": "Markdown content (optional)",
+			"coverPlaceholder": "https://example.com/cover.jpg",
+			"tagsPlaceholder": "architecture, fintech, web (comma-separated)",
+			"noCover": "No cover",
+			"edit": "Edit",
+			"delete": "Delete",
+			"errorConflict": "A project with this slug already exists.",
+			"errorGeneric": "Something went wrong."
+		},
+		"status": {
+			"published": "Published",
+			"draft": "Draft"
 		}
-	}
+	},
+	"sidebar": {
+		"overview": "Overview",
+		"projects": "Projects",
+		"reviews": "Reviews",
+		"inbox": "Inbox",
+		"signOut": "Sign out"
+	},
+	"header": {
+		"admin": "Admin"
+	},
+	"errors": {
+		"loadFailed": "Failed to load",
+		"retry": "Retry",
+		"unknown": "Unknown error"
+	},
+	"comingSoon": "Coming soon"
 }

@@ -1,0 +1,54 @@
+{
+	"meta": {
+		"title": "Works — Roonder Portfolio",
+		"description": "Selected works by Juliam Aponte — architecture, fintech, data, and more."
+	},
+	"hero": {
+		"title": "Works",
+		"subtitle": "A catalog of selected projects spanning architecture, fintech, data, and editorial design.",
+		"search": "Search projects"
+	},
+	"card": {
+		"viewDetails": "View details for {{title}}",
+		"hours": "{{count}} hrs",
+		"empty": "No projects match"
+	},
+	"filter": {
+		"label": "Filter projects",
+		"all": "All",
+		"architecture": "Architecture",
+		"fintech": "FinTech",
+		"data": "Data",
+		"web": "Web Dev",
+		"editorial": "Editorial",
+		"brand": "Brand"
+	},
+	"pagination": {
+		"prev": "Previous",
+		"next": "Next",
+		"page": "Page {{current}} of {{total}}"
+	},
+	"drawer": {
+		"title": "Project preview",
+		"close": "Close preview",
+		"launch": "Launch Live Experience",
+		"launching": "Opening {{title}}…"
+	},
+	"empty": {
+		"title": "No projects match",
+		"body": "Try a different search or category."
+	},
+	"detail": {
+		"meta": {
+			"title": "Project — Roonder Portfolio"
+		},
+		"back": "Back to works",
+		"launch": "Launch Live Experience",
+		"notFoundTitle": "Project not found",
+		"notFoundBody": "The project you are looking for doesn't exist or has been moved.",
+		"related": "Related projects",
+		"about": "About this project",
+		"tags": "Tags",
+		"hours": "{{count}} hours invested"
+	}
+}

@@ -1,0 +1,26 @@
+{
+	"brand": {
+		"name": "Juliam Aponte",
+		"handle": "Roonder"
+	},
+	"nav": {
+		"home": "Home",
+		"works": "Works",
+		"contact": "Contact",
+		"admin": "Admin"
+	},
+	"locale": {
+		"en": "EN",
+		"es": "ES"
+	},
+	"footer": {
+		"copyright": "© {{year}} Juliam Aponte. All rights reserved."
+	},
+	"error": {
+		"generic": "Something went wrong.",
+		"network": "You appear to be offline.",
+		"retry": "Retry",
+		"notFoundTitle": "Page not found",
+		"notFoundBody": "The page you're looking for doesn't exist or has moved."
+	}
+}

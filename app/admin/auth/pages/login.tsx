@@ -29,7 +29,7 @@ import {
 	FieldLabel,
 } from '~/components/ui/field';
 import { Input } from '~/components/ui/input';
-import { cn } from '~/lib/utils';
+import { cn } from '~/shared/lib/cn';
 
 import { API_ERROR_KIND, type ApiError } from '~/shared/lib/fetch-client/errors';
 import { useSessionStore } from '~/shared/stores/session';

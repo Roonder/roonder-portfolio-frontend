@@ -1,0 +1,54 @@
+{
+	"meta": {
+		"title": "Proyectos — Roonder Portfolio",
+		"description": "Proyectos seleccionados de Juliam Aponte — arquitectura, fintech, datos y más."
+	},
+	"hero": {
+		"title": "Proyectos",
+		"subtitle": "Un catálogo de proyectos seleccionados que abarcan arquitectura, fintech, datos y diseño editorial.",
+		"search": "Buscar proyectos"
+	},
+	"card": {
+		"viewDetails": "Ver detalles de {{title}}",
+		"hours": "{{count}} hrs",
+		"empty": "Ningún proyecto coincide"
+	},
+	"filter": {
+		"label": "Filtrar proyectos",
+		"all": "Todos",
+		"architecture": "Arquitectura",
+		"fintech": "FinTech",
+		"data": "Datos",
+		"web": "Desarrollo Web",
+		"editorial": "Editorial",
+		"brand": "Marca"
+	},
+	"pagination": {
+		"prev": "Anterior",
+		"next": "Siguiente",
+		"page": "Página {{current}} de {{total}}"
+	},
+	"drawer": {
+		"title": "Vista previa del proyecto",
+		"close": "Cerrar vista previa",
+		"launch": "Iniciar Experiencia en Vivo",
+		"launching": "Abriendo {{title}}…"
+	},
+	"empty": {
+		"title": "Ningún proyecto coincide",
+		"body": "Prueba con otra búsqueda o categoría."
+	},
+	"detail": {
+		"meta": {
+			"title": "Proyecto — Roonder Portfolio"
+		},
+		"back": "Volver a proyectos",
+		"launch": "Iniciar Experiencia en Vivo",
+		"notFoundTitle": "Proyecto no encontrado",
+		"notFoundBody": "El proyecto que buscas no existe o se ha movido.",
+		"related": "Proyectos relacionados",
+		"about": "Sobre este proyecto",
+		"tags": "Etiquetas",
+		"hours": "{{count}} horas invertidas"
+	}
+}

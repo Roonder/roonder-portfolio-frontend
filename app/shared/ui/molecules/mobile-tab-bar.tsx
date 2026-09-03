@@ -26,9 +26,9 @@ type TabDef = {
 };
 
 const TABS: TabDef[] = [
-	{ id: 'projects', label: 'Projects', Icon: Folder, to: '/admin/projects' },
-	{ id: 'reviews', label: 'Reviews', Icon: Star, to: '/admin/reviews' },
-	{ id: 'inbox', label: 'Inbox', Icon: Mail, to: '/admin/contact' },
+	{ id: 'projects', label: 'Projects', Icon: Folder, to: '/administration-panel/projects' },
+	{ id: 'reviews', label: 'Reviews', Icon: Star, to: '/administration-panel/reviews' },
+	{ id: 'inbox', label: 'Inbox', Icon: Mail, to: '/administration-panel/contact' },
 ];
 
 export function MobileTabBar({ className }: MobileTabBarProps) {

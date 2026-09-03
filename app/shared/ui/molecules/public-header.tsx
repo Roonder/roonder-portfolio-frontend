@@ -1,11 +1,10 @@
 /**
  * `PublicHeader` — the public site header.
  *
- * Layout: brand pill on the left (the canonical
- * `common.brand.name`), nav links in the middle (Home, Works,
- * Contact), locale switcher + admin CTA on the right. The header
- * is a `flex` row; mobile collapses the nav into a menu button
- * (wired by the mobile menu slice in `useUIStore` in P1).
+ * Layout: brand mark on the left, nav links in the middle (Home,
+ * Works, Contact), locale switcher on the right. The admin surface
+ * is intentionally not linked from here — it's reachable only by
+ * its (obscured) URL.
  */
 import { Link, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { cn } from '~/shared/lib/cn';
 
 import { LocaleSwitcher } from '~/shared/ui/molecules/locale-switcher';
+import { BrandMark } from '~/shared/ui/atoms/brand-mark';
 import { useLocaleStore } from '~/shared/stores/locale';
 
 export type PublicHeaderProps = {
@@ -42,9 +42,9 @@ export function PublicHeader({ className }: PublicHeaderProps) {
 			<Link
 				to={`${base}/`}
 				aria-label={t('common.brand.name')}
-				className="text-lg font-semibold tracking-tight text-primary md:text-xl"
+				className="text-primary"
 			>
-				{t('common.brand.name')}
+				<BrandMark className="h-8 w-auto md:h-9" />
 			</Link>
 
 			<nav
@@ -74,12 +74,6 @@ export function PublicHeader({ className }: PublicHeaderProps) {
 
 			<div className="flex items-center gap-2">
 				<LocaleSwitcher currentPathname={pathname} />
-				<Link
-					to="/admin/auth"
-					className="hidden text-xs font-semibold uppercase tracking-widest text-muted-foreground transition-colors hover:text-primary md:inline-flex"
-				>
-					{t('common.nav.admin')}
-				</Link>
 			</div>
 		</header>
 	);

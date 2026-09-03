@@ -9,10 +9,18 @@
  *
  * The dock is presentational; the active state is computed from
  * the current pathname. The dock hides on desktop (md+).
+ *
+ * It also slides out of view on scroll-down and back in on
+ * scroll-up (this is the only mobile nav affordance now that the
+ * header hamburger is gone), tracked via `useScroll` +
+ * `useMotionValueEvent` and skipped entirely under
+ * `prefers-reduced-motion`.
  */
+import { useState } from 'react';
 import { Link, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { Home, Briefcase, Mail, ShieldCheck } from 'lucide-react';
+import { motion, useScroll, useMotionValueEvent, useReducedMotion } from 'motion/react';
 
 import { cn } from '~/shared/lib/cn';
 
@@ -30,6 +38,21 @@ export function BottomNavDock({ className, adminHref }: BottomNavDockProps) {
 	const { pathname } = useLocation();
 	const base = locale === 'es' ? '/es' : '';
 
+	const prefersReducedMotion = useReducedMotion();
+	const { scrollY } = useScroll();
+	const [hidden, setHidden] = useState(false);
+
+	useMotionValueEvent(scrollY, 'change', (current) => {
+		const previous = scrollY.getPrevious() ?? current;
+		const delta = current - previous;
+		if (current < 48) {
+			setHidden(false);
+			return;
+		}
+		if (delta > 4) setHidden(true);
+		else if (delta < -4) setHidden(false);
+	});
+
 	const items = [
 		{ to: `${base}/`, label: t('common.nav.home'), Icon: Home },
 		{ to: `${base}/works`, label: t('common.nav.works'), Icon: Briefcase },
@@ -37,9 +60,15 @@ export function BottomNavDock({ className, adminHref }: BottomNavDockProps) {
 	];
 
 	return (
-		<nav
+		<motion.nav
 			aria-label="Primary mobile"
 			data-slot="bottom-nav-dock"
+			animate={
+				prefersReducedMotion
+					? { opacity: 1, y: 0 }
+					: { y: hidden ? 96 : 0, opacity: hidden ? 0 : 1 }
+			}
+			transition={{ duration: 0.25, ease: 'easeOut' }}
 			className={cn(
 				'fixed inset-x-0 bottom-4 z-50 mx-auto flex w-fit items-center gap-1 rounded-full border border-primary/40 bg-surface-container-low/60 px-2 py-2 backdrop-blur-xl md:hidden',
 				'stroke-1.5',
@@ -75,6 +104,6 @@ export function BottomNavDock({ className, adminHref }: BottomNavDockProps) {
 					<span className="sr-only">{t('common.nav.admin')}</span>
 				</Link>
 			) : null}
-		</nav>
+		</motion.nav>
 	);
 }

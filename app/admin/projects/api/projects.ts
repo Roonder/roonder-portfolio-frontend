@@ -107,7 +107,7 @@ export async function createProjectAction(request: Request): Promise<ActionResul
 		});
 		const data = result.data as { id: string };
 		await mutate(swrKeys.admin.projects.list());
-		return redirect(`/admin/projects/${data.id}`) as unknown as ActionResult;
+		return redirect(`/administration-panel/projects/${data.id}`) as unknown as ActionResult;
 	} catch (err) {
 		if (err instanceof ApiError) {
 			return { ok: false, error: err.toJSON() };

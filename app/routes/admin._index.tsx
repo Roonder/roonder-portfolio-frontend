@@ -1,5 +1,5 @@
 /**
- * Admin overview route (`/admin`).
+ * Admin overview route (`/administration-panel`).
  *
  * The loader fetches the top 3 recent projects for the overview
  * widget. The Active Works stat uses the hardcoded fallback

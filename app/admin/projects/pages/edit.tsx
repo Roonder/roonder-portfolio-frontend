@@ -29,7 +29,7 @@ export default function AdminProjectEditPage({
 		fd.set('_method', 'DELETE');
 		deleteFetcher.submit(fd, {
 			method: 'post',
-			action: `/admin/projects/${project.id}`,
+			action: `/administration-panel/projects/${project.id}`,
 		});
 		setDeleteOpen(false);
 	}
@@ -38,7 +38,7 @@ export default function AdminProjectEditPage({
 		<div className="flex flex-col gap-6">
 			<div className="flex items-center justify-between">
 				<Link
-					to="/admin/projects"
+					to="/administration-panel/projects"
 					className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-primary"
 				>
 					<ChevronLeft className="size-4" aria-hidden="true" />
@@ -60,7 +60,7 @@ export default function AdminProjectEditPage({
 
 			<AdminProjectForm
 				method="patch"
-				action={`/admin/projects/${project.id}`}
+				action={`/administration-panel/projects/${project.id}`}
 				defaultValues={{
 					title: project.title,
 					slug: project.slug,

@@ -3,7 +3,7 @@
  *
  * Uses `useFetcher` to fire `POST /admin/auth/logout` (the route
  * `app/routes/admin.auth.logout.tsx` re-exports `logoutAction` as its
- * `action`). On success the action's `redirect('/admin/auth')` lands
+ * `action`). On success the action's `redirect('/administration-panel/auth')` lands
  * the user on the login form with both `rt` and `access` cookies
  * cleared.
  *
@@ -38,7 +38,7 @@ export function SignOutButton({ className }: { className?: string }) {
 
 	// Once the fetcher has resolved AND the user has been navigated
 	// away by the action's redirect, clear the session store. The
-	// action's `redirect('/admin/auth')` triggers a navigation, so
+	// action's `redirect('/administration-panel/auth')` triggers a navigation, so
 	// by the time this effect fires (after the fetcher's data is set
 	// and the navigation starts), the user is already on the way to
 	// the login form. The store clear is the JS-side complement of
@@ -59,7 +59,7 @@ export function SignOutButton({ className }: { className?: string }) {
 				setSubmitting(true);
 				fetcher.submit(null, {
 					method: "post",
-					action: "/admin/auth/logout",
+					action: "/administration-panel/auth/logout",
 				});
 			}}
 		>

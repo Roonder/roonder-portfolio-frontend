@@ -1,8 +1,8 @@
 /**
  * `AdminProjectForm` — the canonical admin project form molecule.
  *
- * Used by both `/admin/projects/new` (REQ-ADM-2) and
- * `/admin/projects/:id` (REQ-ADM-3). Wires `react-hook-form` +
+ * Used by both `/administration-panel/projects/new` (REQ-ADM-2) and
+ * `/administration-panel/projects/:id` (REQ-ADM-3). Wires `react-hook-form` +
  * `zodResolver(adminProjectSchema)`, renders 8 fields, and submits
  * via `useFetcher().submit()` to the parent route's action.
  *

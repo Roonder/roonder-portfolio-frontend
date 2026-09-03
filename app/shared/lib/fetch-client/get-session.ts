@@ -4,7 +4,7 @@
  * The admin layout's loader (and any other loader that needs the
  * current user) calls this. It:
  *  1. Reads the `access` cookie from the incoming request. If absent,
- *     throws `redirect('/admin/auth?next=<currentPath>')` (REQ-GATE-2)
+ *     throws `redirect('/administration-panel/auth?next=<currentPath>')` (REQ-GATE-2)
  *     so the admin gate catches the unauthenticated case before
  *     hitting the API.
  *  2. Calls `serverFetch(request, { url: '/api/v1/auth/profile' })`.
@@ -40,7 +40,7 @@ export type Session = {
 
 /**
  * Read the admin session from the SSR request. Throws a `redirect()`
- * to `/admin/auth?next=<currentPath>` when the user is not
+ * to `/administration-panel/auth?next=<currentPath>` when the user is not
  * authenticated (no `access` cookie OR the profile call 401s).
  */
 export async function getSession(request: Request): Promise<Session> {
@@ -69,20 +69,20 @@ export async function getSession(request: Request): Promise<Session> {
 
 /**
  * Validate a `?next=…` query param. The guard is per REQ-NEXT-1:
- * same-origin (must start with `/`) AND must start with `/admin/`.
- * Anything else falls back to `/admin` so the user lands on a safe
+ * same-origin (must start with `/`) AND must start with `/administration-panel/`.
+ * Anything else falls back to `/administration-panel` so the user lands on a safe
  * page. This is the same-origin + admin-prefix phishing guard.
  */
 export function safeNext(next: string | null, currentPath: string): string {
-	if (next && next.startsWith('/admin/') && !next.startsWith('//')) {
+	if (next && next.startsWith('/administration-panel/') && !next.startsWith('//')) {
 		return next;
 	}
 	void currentPath;
-	return '/admin';
+	return '/administration-panel';
 }
 
 function redirectToAuth(request: Request): Response {
 	const url = new URL(request.url);
 	const next = encodeURIComponent(url.pathname + url.search);
-	return redirect(`/admin/auth?next=${next}`);
+	return redirect(`/administration-panel/auth?next=${next}`);
 }

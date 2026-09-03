@@ -4,7 +4,7 @@
  * depend on `@hookform/resolvers`).
  *
  * The form posts to the React Router server action at
- * `/admin/auth` (the action itself lives in
+ * `/administration-panel/auth` (the action itself lives in
  * `~/admin/auth/api/login`). On success, the action
  * `redirect()`s to the `next` URL with the new `access` + `rt`
  * cookies attached. On failure, the action returns
@@ -96,14 +96,14 @@ export default function LoginPage() {
 	}, [error, setError]);
 
 	const onSubmit = handleSubmit((values) => {
-		fetcher.submit(values, { method: 'post', action: '/admin/auth' });
+		fetcher.submit(values, { method: 'post', action: '/administration-panel/auth' });
 	});
 
 	return (
 		<main className="flex min-h-svh items-center justify-center bg-background px-4 py-12">
 			<form
 				method="post"
-				action="/admin/auth"
+				action="/administration-panel/auth"
 				onSubmit={onSubmit}
 				className="w-full max-w-sm space-y-6 rounded-2xl border border-outline-variant/40 bg-surface-container-low p-8 shadow-[0_0_30px_rgba(212,175,55,0.04)]"
 				noValidate

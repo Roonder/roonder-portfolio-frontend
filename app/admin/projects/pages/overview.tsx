@@ -69,7 +69,7 @@ export default function AdminOverviewPage({
 					<h2 className="font-display text-lg font-semibold text-on-surface">
 						Recent Projects
 					</h2>
-					<Button size="sm" render={<Link to="/admin/projects/new" />}>
+					<Button size="sm" render={<Link to="/administration-panel/projects/new" />}>
 						<Plus className="mr-1.5 size-4" aria-hidden="true" />
 						New
 					</Button>
@@ -80,7 +80,7 @@ export default function AdminOverviewPage({
 						title="No projects yet"
 						body="Create your first project to get started."
 						action={
-							<Button size="sm" render={<Link to="/admin/projects/new" />}>
+							<Button size="sm" render={<Link to="/administration-panel/projects/new" />}>
 								<Plus className="mr-1.5 size-4" aria-hidden="true" />
 								New Project
 							</Button>

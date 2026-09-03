@@ -1,8 +1,8 @@
 /**
- * `TestimonialsSplit` — the home reviews list per REQ-HOME-2.
- * Q-3 deferred: the review submission form is OUT OF SCOPE for
- * v1, so the split renders a read-only list of featured reviews
- * with a "Reviews are coming soon" placeholder for the form side.
+ * `TestimonialsSplit` — the home reviews list. Renders the
+ * `ReviewForm` on the left (submits to `POST /api/v1/reviews`,
+ * public) and a read-only list of approved featured reviews on
+ * the right.
  *
  * BRAND FLOURISH — "[ Client Voices ]" micro-label is fixed.
  */
@@ -12,6 +12,7 @@ import { cn } from '~/shared/lib/cn';
 
 import { BentoCell } from '~/shared/ui/atoms/bento-cell';
 import { MicroLabel } from '~/shared/ui/atoms/micro-label';
+import { ReviewForm } from '~/home/molecules/review-form';
 
 import type { Review } from '~/home/schema';
 
@@ -36,9 +37,7 @@ export function TestimonialsSplit({
 				<h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
 					{t('home.sections.reviews.title')}
 				</h2>
-				<p className="text-sm text-muted-foreground md:text-base">
-					{t('home.reviews.comingSoon')}
-				</p>
+				<ReviewForm />
 			</BentoCell>
 
 			<div className="flex flex-col gap-3">

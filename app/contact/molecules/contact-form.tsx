@@ -144,7 +144,7 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 								id="contact-name"
 								type="text"
 								autoComplete="name"
-								placeholder={t('contact.form.name')}
+								placeholder={t('contact.form.namePlaceholder')}
 								aria-invalid={Boolean(errors.name)}
 								disabled={isSubmitting}
 							/>
@@ -172,7 +172,7 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 								id="contact-email"
 								type="email"
 								autoComplete="email"
-								placeholder={t('contact.form.email')}
+								placeholder={t('contact.form.emailPlaceholder')}
 								aria-invalid={Boolean(errors.email)}
 								disabled={isSubmitting}
 							/>
@@ -199,7 +199,7 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 								{...field}
 								id="contact-subject"
 								type="text"
-								placeholder={t('contact.form.subject')}
+								placeholder={t('contact.form.subjectPlaceholder')}
 								aria-invalid={Boolean(errors.subject)}
 								disabled={isSubmitting}
 							/>
@@ -226,7 +226,7 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 								{...field}
 								id="contact-message"
 								rows={6}
-								placeholder={t('contact.form.body')}
+								placeholder={t('contact.form.bodyPlaceholder')}
 								aria-invalid={Boolean(errors.message)}
 								disabled={isSubmitting}
 							/>

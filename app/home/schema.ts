@@ -38,11 +38,11 @@ export type Review = z.infer<typeof reviewSchema>;
 
 /**
  * Home metrics — three numbers + labels per the Aurelian design.
- * The backend does NOT yet expose `GET /api/v1/home/metrics`
- * (REQ-HOME-8 BLOCKED-ON-BACKEND). The home loader uses the
- * design-time fallback `{ activeWorks: 124, retainedClients: 48,
- * deliveredProjects: 92 }`; when the backend ships the endpoint,
- * swap the fallback for the live fetch.
+ * The backend has no `/metrics` endpoint: `activeWorks` and
+ * `retainedClients` are manually maintained constants (see
+ * `HOME_METRICS_MANUAL` in `~/home/api/featured`), while
+ * `deliveredProjects` is derived live from the published project
+ * count.
  */
 export const homeMetricsSchema = z.object({
 	activeWorks: z.number().int().nonnegative(),
@@ -65,3 +65,37 @@ export const featuredReviewsResponseSchema = z.object({
 	page: z.number().int().positive(),
 	pageSize: z.number().int().positive(),
 });
+
+/**
+ * `createReviewSchema` — mirrors the backend's locked
+ * `CreateReviewDto` (`POST /api/v1/reviews`, public): `authorName`
+ * optional max 100, `authorRole` optional max 120, `content`
+ * required 10-2000, `rating` required int 1-5. The backend's
+ * `forbidNonWhitelisted` pipe rejects any extra field.
+ */
+export const createReviewSchema = z.object({
+	authorName: z
+		.string()
+		.trim()
+		.max(100, 'home.reviews.form.validation.authorNameMax')
+		.optional()
+		.or(z.literal('')),
+	authorRole: z
+		.string()
+		.trim()
+		.max(120, 'home.reviews.form.validation.authorRoleMax')
+		.optional()
+		.or(z.literal('')),
+	content: z
+		.string()
+		.trim()
+		.min(10, 'home.reviews.form.validation.contentMin')
+		.max(2_000, 'home.reviews.form.validation.contentMax'),
+	rating: z
+		.number()
+		.int()
+		.min(1, 'home.reviews.form.validation.ratingRequired')
+		.max(5, 'home.reviews.form.validation.ratingRequired'),
+});
+
+export type CreateReviewValues = z.infer<typeof createReviewSchema>;

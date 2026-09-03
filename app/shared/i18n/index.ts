@@ -29,13 +29,13 @@ import esContact from '~/shared/i18n/locales/es/contact.json';
 export const LOCALES = ['en', 'es'] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = 'en';
-export const NAMESPACES = [
-	'common',
-	'home',
-	'works',
-	'contact',
-	'admin',
-] as const;
+// Every call site does `t('home.hero.subhead')`, `t('admin.auth.title')`,
+// etc. — the "domain" is written as a literal key prefix, not passed as
+// an i18next namespace. So all domains live nested inside the single
+// `common` namespace (keyed by domain name) rather than as separate
+// i18next namespaces; otherwise `t(key)` (which always resolves against
+// `defaultNS` when no namespace is given) can never see them.
+export const NAMESPACES = ['common'] as const;
 export type Namespace = (typeof NAMESPACES)[number];
 export const DEFAULT_NAMESPACE: Namespace = 'common';
 
@@ -52,17 +52,21 @@ export function initI18n(initialLocale: Locale = DEFAULT_LOCALE): Promise<I18nIn
 	initPromise = i18next.use(initReactI18next).init({
 		resources: {
 			en: {
-				common: enCommon,
-				home: enHome,
-				works: enWorks,
-				contact: enContact,
-				admin: enAdmin,
+				common: {
+					common: enCommon,
+					home: enHome,
+					works: enWorks,
+					contact: enContact,
+					admin: enAdmin,
+				},
 			},
 			es: {
-				common: esCommon,
-				home: esHome,
-				works: esWorks,
-				contact: esContact,
+				common: {
+					common: esCommon,
+					home: esHome,
+					works: esWorks,
+					contact: esContact,
+				},
 			},
 		},
 		lng: initialLocale,

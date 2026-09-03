@@ -9,18 +9,6 @@ import {
 } from "~/shared/i18n";
 import { useLocaleStore } from "~/shared/stores/locale";
 
-// Import all locale resources to serialize them for the client
-import enCommon from "~/shared/i18n/locales/en/common.json";
-import enHome from "~/shared/i18n/locales/en/home.json";
-import enWorks from "~/shared/i18n/locales/en/works.json";
-import enContact from "~/shared/i18n/locales/en/contact.json";
-import enAdmin from "~/shared/i18n/locales/en/admin.json";
-
-import esCommon from "~/shared/i18n/locales/es/common.json";
-import esHome from "~/shared/i18n/locales/es/home.json";
-import esWorks from "~/shared/i18n/locales/es/works.json";
-import esContact from "~/shared/i18n/locales/es/contact.json";
-
 /**
  * Public surface layout.
  *
@@ -55,25 +43,7 @@ export async function loader({ request }: Route.LoaderArgs) {
 	if (typeof document !== 'undefined') {
 		document.documentElement.lang = lang;
 	}
-	// Serialize i18n resources for client hydration. The client needs
-	// these resources to avoid re-fetching them and to ensure i18next
-	// is initialized with the correct translations before React hydrates.
-	const resources = {
-		en: {
-			common: enCommon,
-			home: enHome,
-			works: enWorks,
-			contact: enContact,
-			admin: enAdmin,
-		},
-		es: {
-			common: esCommon,
-			home: esHome,
-			works: esWorks,
-			contact: esContact,
-		},
-	};
-	return { lang, resources };
+	return { lang };
 }
 
 export function meta() {
@@ -86,10 +56,10 @@ export function meta() {
 export default function PublicLayout({ loaderData }: Route.ComponentProps) {
 	return (
 		<div data-lang={loaderData.lang}>
-			{/* Serialize i18n resources for client hydration */}
+			{/* Tell the client which locale the server rendered with. */}
 			<script
 				dangerouslySetInnerHTML={{
-					__html: `window.__I18N_RESOURCES__ = ${JSON.stringify(loaderData.resources)}; window.__I18N_LOCALE__ = ${JSON.stringify(loaderData.lang)};`,
+					__html: `window.__I18N_LOCALE__ = ${JSON.stringify(loaderData.lang)};`,
 				}}
 			/>
 			<Outlet />

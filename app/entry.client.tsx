@@ -11,44 +11,26 @@ import { startTransition } from "react";
 
 import { initI18n, i18next, type Locale } from "~/shared/i18n";
 
-// Declare the global variables set by the server-rendered script tag
+// Declare the global variable set by the server-rendered script tag
 declare global {
 	interface Window {
-		__I18N_RESOURCES__?: Record<string, Record<string, unknown>>;
 		__I18N_LOCALE__?: Locale;
 	}
 }
 
 /**
- * Hydrate i18next with the resources serialized by the server. This
- * avoids the flash of raw translation keys that happens when the client
- * renders before i18next has loaded the translations.
+ * Hydrate i18next on the client. All translations are already bundled
+ * statically in `~/shared/i18n`'s `initI18n()` (same module, same
+ * resources on server and client), so this only needs to switch to the
+ * locale the server rendered with — matching it exactly avoids a flash
+ * of the wrong language between hydration and the first client render.
  */
 async function hydrateI18n(): Promise<void> {
-	const resources = window.__I18N_RESOURCES__;
 	const locale = window.__I18N_LOCALE__;
-
-	if (!resources || !locale) {
-		// Fallback: initialize with default locale if no resources were
-		// serialized (e.g. on admin routes that don't use i18n).
-		await initI18n();
-		return;
-	}
-
-	// Initialize i18next with the pre-loaded resources
 	await initI18n(locale);
-
-	// Add the resources to i18next's resource store. This is faster
-	// than re-fetching them and ensures the client has the exact same
-	// translations as the server.
-	for (const [lng, ns] of Object.entries(resources)) {
-		for (const [nsName, nsData] of Object.entries(ns)) {
-			i18next.addResourceBundle(lng, nsName, nsData, true, true);
-		}
+	if (locale) {
+		await i18next.changeLanguage(locale);
 	}
-
-	// Set the language to the serialized locale
-	await i18next.changeLanguage(locale);
 }
 
 startTransition(() => {

@@ -30,9 +30,16 @@ export function HeroProfileCard({ className }: HeroProfileCardProps) {
 			)}
 		>
 			<div
-				aria-hidden="true"
-				className="absolute right-6 top-6 hidden size-24 rounded-full border-2 border-primary/40 bg-primary/10 backdrop-blur-md md:block"
-			/>
+				className="absolute right-6 top-1/2 hidden size-32 -translate-y-1/2 overflow-hidden rounded-full border-2 border-primary/40 bg-primary/10 backdrop-blur-md md:block md:size-40"
+			>
+				<img
+					src="/images/technical-strategist.jpg"
+					alt="Juliam Aponte"
+					className="h-full w-full object-cover"
+					loading="lazy"
+					decoding="async"
+				/>
+			</div>
 			<MicroLabel label="Technical Strategist" />
 
 			<h1 className="font-display text-4xl font-semibold leading-tight tracking-tight text-on-surface md:text-6xl">

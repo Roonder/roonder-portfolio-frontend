@@ -1,7 +1,9 @@
 /**
  * `MetricsBento` — the 3-cell metrics row from the home
- * `homeMetrics` payload. Falls back to the design-time values
- * 124 / 48 / 92 per REQ-HOME-8 (BLOCKED-ON-BACKEND).
+ * `homeMetrics` payload. `activeWorks`/`retainedClients` are
+ * manually maintained (see `HOME_METRICS_MANUAL` in
+ * `~/home/api/featured`); `deliveredProjects` is a live project
+ * count.
  *
  * BRAND FLOURISH — "[ Precision Metrics ]" micro-label is fixed.
  */

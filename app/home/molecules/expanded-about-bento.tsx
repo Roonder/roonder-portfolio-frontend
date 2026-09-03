@@ -1,9 +1,10 @@
 /**
  * `ExpandedAboutBento` — the expanded About section per Q-4
- * (REQ-HOME-3). Renders the brand micro-label, a heading, the
+ * (REQ-HOME-3). Renders the brand micro-label, a heading, and the
  * body paragraph (with `{{brand}}` interpolated from
- * `t('common.brand.name')`), and an optional 2-3 column
- * secondary stat row sourced from the home metrics.
+ * `t('common.brand.name')`). The secondary stat row was removed —
+ * it duplicated the numbers already shown in `MetricsBento`
+ * directly above this section on the home page.
  *
  * BRAND FLOURISH — "SOBRE MÍ" / "About" micro-label stays fixed
  * per ADR-6 (Spanish brand flourish is part of the visual
@@ -16,17 +17,11 @@ import { cn } from '~/shared/lib/cn';
 import { BentoCell } from '~/shared/ui/atoms/bento-cell';
 import { MicroLabel } from '~/shared/ui/atoms/micro-label';
 
-import type { HomeMetrics } from '~/home/schema';
-
 export type ExpandedAboutBentoProps = {
-	metrics: HomeMetrics;
 	className?: string;
 };
 
-export function ExpandedAboutBento({
-	metrics,
-	className,
-}: ExpandedAboutBentoProps) {
+export function ExpandedAboutBento({ className }: ExpandedAboutBentoProps) {
 	const { t } = useTranslation();
 	const brand = t('common.brand.name');
 
@@ -45,37 +40,9 @@ export function ExpandedAboutBento({
 				</h2>
 			</header>
 
-			<div className="grid gap-6 md:grid-cols-3">
-				<p className="md:col-span-2 text-base text-muted-foreground md:text-lg">
-					{t('home.about.body', { brand })}
-				</p>
-				<div className="grid grid-cols-3 gap-4 md:flex md:flex-col md:gap-3">
-					<div className="flex flex-col gap-1 border-l border-outline-variant/40 pl-3 md:border-l-0 md:border-t md:pl-0 md:pt-3">
-						<span className="font-display text-2xl font-semibold text-on-surface">
-							{metrics.activeWorks}
-						</span>
-						<span className="text-xs uppercase tracking-widest text-muted-foreground">
-							{t('home.about.stat1')}
-						</span>
-					</div>
-					<div className="flex flex-col gap-1 border-l border-outline-variant/40 pl-3 md:border-l-0 md:border-t md:pl-0 md:pt-3">
-						<span className="font-display text-2xl font-semibold text-on-surface">
-							{metrics.retainedClients}
-						</span>
-						<span className="text-xs uppercase tracking-widest text-muted-foreground">
-							{t('home.about.stat2')}
-						</span>
-					</div>
-					<div className="flex flex-col gap-1 border-l border-outline-variant/40 pl-3 md:border-l-0 md:border-t md:pl-0 md:pt-3">
-						<span className="font-display text-2xl font-semibold text-on-surface">
-							{metrics.deliveredProjects}
-						</span>
-						<span className="text-xs uppercase tracking-widest text-muted-foreground">
-							{t('home.about.stat3')}
-						</span>
-					</div>
-				</div>
-			</div>
+			<p className="max-w-prose text-base text-muted-foreground md:text-lg">
+				{t('home.about.body', { brand })}
+			</p>
 		</BentoCell>
 	);
 }

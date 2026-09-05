@@ -32,7 +32,7 @@ export function TestimonialsSplit({
 			data-slot="testimonials-split"
 			className={cn('grid gap-3 md:grid-cols-2', className)}
 		>
-			<BentoCell className="flex flex-col gap-4 p-6 md:p-8">
+			<BentoCell className="flex flex-col gap-2 p-6 md:p-8">
 				<MicroLabel label="[ Client Voices ]" />
 				<h2 className="font-display text-2xl font-semibold tracking-tight md:text-3xl">
 					{t('home.sections.reviews.title')}
@@ -41,10 +41,10 @@ export function TestimonialsSplit({
 			</BentoCell>
 
 			<div className="flex flex-col gap-3">
-				{reviews.slice(0, 2).map((review) => (
+				{reviews.slice(0, 3).map((review) => (
 					<BentoCell
 						key={review.id}
-						className="flex flex-col gap-3 p-5 md:p-6"
+						className="flex flex-col gap-3 p-5 md:p-6 h-full"
 					>
 						<div className="flex items-baseline justify-between gap-2">
 							<span className="font-semibold text-on-surface">

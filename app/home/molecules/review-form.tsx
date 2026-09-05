@@ -10,32 +10,24 @@
  * `zodResolver(createReviewSchema)`, typed `ApiError` rendered via
  * `FormError`. No `useMemo` / `useCallback` / `React.memo`.
  */
-import { useEffect, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useTranslation } from 'react-i18next';
-import { Star } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslation } from "react-i18next";
+import { Star } from "lucide-react";
 
-import { cn } from '~/shared/lib/cn';
+import { cn } from "~/shared/lib/cn";
 
-import {
-	createReviewSchema,
-	type CreateReviewValues,
-} from '~/home/schema';
-import { submitReview } from '~/home/api/reviews';
-import { FormError } from '~/contact/atoms/form-error';
-import { useToastStore } from '~/shared/stores/toasts';
-import { API_ERROR_KIND, ApiError } from '~/shared/lib/fetch-client/errors';
+import { createReviewSchema, type CreateReviewValues } from "~/home/schema";
+import { submitReview } from "~/home/api/reviews";
+import { FormError } from "~/contact/atoms/form-error";
+import { useToastStore } from "~/shared/stores/toasts";
+import { API_ERROR_KIND, ApiError } from "~/shared/lib/fetch-client/errors";
 
-import {
-	Field,
-	FieldError,
-	FieldGroup,
-	FieldLabel,
-} from '~/components/ui/field';
-import { Input } from '~/components/ui/input';
-import { Textarea } from '~/components/ui/textarea';
-import { Button } from '~/components/ui/button';
+import { Field, FieldError, FieldGroup, FieldLabel } from "~/components/ui/field";
+import { Input } from "~/components/ui/input";
+import { Textarea } from "~/components/ui/textarea";
+import { Button } from "~/components/ui/button";
 
 export type ReviewFormProps = {
 	className?: string;
@@ -44,8 +36,6 @@ export type ReviewFormProps = {
 export function ReviewForm({ className }: ReviewFormProps) {
 	const { t } = useTranslation();
 	const pushToast = useToastStore((s) => s.push);
-
-	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [actionError, setActionError] = useState<ApiError | null>(null);
 	const [countdown, setCountdown] = useState<number | null>(null);
 
@@ -53,17 +43,17 @@ export function ReviewForm({ className }: ReviewFormProps) {
 		control,
 		handleSubmit,
 		reset,
-		formState: { errors },
+		formState: { errors, isSubmitting },
 	} = useForm<CreateReviewValues>({
 		resolver: zodResolver(createReviewSchema),
-		defaultValues: { authorName: '', authorRole: '', content: '', rating: 5 },
-		mode: 'onBlur',
+		defaultValues: { authorName: "", authorRole: "", content: "", rating: 5 },
+		mode: "onBlur",
 	});
 
 	useEffect(() => {
 		if (
 			actionError?.kind === API_ERROR_KIND.throttled &&
-			typeof actionError.retryAfter === 'number'
+			typeof actionError.retryAfter === "number"
 		) {
 			setCountdown(actionError.retryAfter);
 			const interval = window.setInterval(() => {
@@ -82,20 +72,19 @@ export function ReviewForm({ className }: ReviewFormProps) {
 	}, [actionError]);
 
 	const fieldErrors =
-		actionError?.kind === API_ERROR_KIND.validation
-			? actionError.fieldErrors
-			: undefined;
+		actionError?.kind === API_ERROR_KIND.validation ? actionError.fieldErrors : undefined;
 
 	const submitDisabled = isSubmitting || countdown !== null;
 
 	async function onSubmit(values: CreateReviewValues) {
-		setIsSubmitting(true);
 		setActionError(null);
 		const result = await submitReview(values);
-		setIsSubmitting(false);
 		if (result.ok) {
-			pushToast({ kind: 'success', message: t('home.reviews.form.success') });
-			reset();
+			setTimeout(() => {
+				pushToast({ kind: "success", message: t("home.reviews.form.success") });
+				reset();
+			}, 1e3);
+
 			return;
 		}
 		setActionError(result.error);
@@ -105,21 +94,21 @@ export function ReviewForm({ className }: ReviewFormProps) {
 		<form
 			noValidate
 			onSubmit={handleSubmit(onSubmit)}
-			className={cn('flex flex-col gap-4', className)}
+			className={cn("flex flex-col gap-4", className)}
 		>
-			<FieldGroup>
+			<FieldGroup className="gap-4">
 				<Controller
 					control={control}
 					name="rating"
 					render={({ field }) => (
 						<Field>
 							<FieldLabel htmlFor="review-rating">
-								{t('home.reviews.form.rating')}
+								{t("home.reviews.form.rating")}
 							</FieldLabel>
 							<div
 								id="review-rating"
 								role="radiogroup"
-								aria-label={t('home.reviews.form.rating')}
+								aria-label={t("home.reviews.form.rating")}
 								className="flex items-center gap-1"
 							>
 								{[1, 2, 3, 4, 5].map((value) => (
@@ -128,17 +117,17 @@ export function ReviewForm({ className }: ReviewFormProps) {
 										type="button"
 										role="radio"
 										aria-checked={field.value === value}
-										aria-label={t('home.reviews.form.ratingValue', { value })}
+										aria-label={t("home.reviews.form.ratingValue", { value })}
 										onClick={() => field.onChange(value)}
 										disabled={isSubmitting}
 										className="rounded-sm p-0.5 transition-colors disabled:opacity-50"
 									>
 										<Star
 											className={cn(
-												'size-6',
+												"size-6",
 												value <= field.value
-													? 'fill-primary text-primary'
-													: 'text-muted-foreground',
+													? "fill-primary text-primary"
+													: "text-muted-foreground"
 											)}
 										/>
 									</button>
@@ -154,20 +143,20 @@ export function ReviewForm({ className }: ReviewFormProps) {
 					render={({ field }) => (
 						<Field>
 							<FieldLabel htmlFor="review-content">
-								{t('home.reviews.form.content')}
+								{t("home.reviews.form.content")}
 							</FieldLabel>
 							<Textarea
 								{...field}
 								id="review-content"
 								rows={4}
-								placeholder={t('home.reviews.form.contentPlaceholder')}
+								placeholder={t("home.reviews.form.contentPlaceholder")}
 								aria-invalid={Boolean(errors.content)}
 								disabled={isSubmitting}
 							/>
 							<FieldError
 								errors={
 									errors.content
-										? [{ message: t(errors.content.message ?? '') }]
+										? [{ message: t(errors.content.message ?? "") }]
 										: fieldErrors?.content?.map((m) => ({ message: m }))
 								}
 							/>
@@ -182,21 +171,21 @@ export function ReviewForm({ className }: ReviewFormProps) {
 						render={({ field }) => (
 							<Field>
 								<FieldLabel htmlFor="review-author-name">
-									{t('home.reviews.form.authorName')}
+									{t("home.reviews.form.authorName")}
 								</FieldLabel>
 								<Input
 									{...field}
 									id="review-author-name"
 									type="text"
 									autoComplete="name"
-									placeholder={t('home.reviews.form.authorNamePlaceholder')}
+									placeholder={t("home.reviews.form.authorNamePlaceholder")}
 									aria-invalid={Boolean(errors.authorName)}
 									disabled={isSubmitting}
 								/>
 								<FieldError
 									errors={
 										errors.authorName
-											? [{ message: t(errors.authorName.message ?? '') }]
+											? [{ message: t(errors.authorName.message ?? "") }]
 											: fieldErrors?.authorName?.map((m) => ({ message: m }))
 									}
 								/>
@@ -210,20 +199,20 @@ export function ReviewForm({ className }: ReviewFormProps) {
 						render={({ field }) => (
 							<Field>
 								<FieldLabel htmlFor="review-author-role">
-									{t('home.reviews.form.authorRole')}
+									{t("home.reviews.form.authorRole")}
 								</FieldLabel>
 								<Input
 									{...field}
 									id="review-author-role"
 									type="text"
-									placeholder={t('home.reviews.form.authorRolePlaceholder')}
+									placeholder={t("home.reviews.form.authorRolePlaceholder")}
 									aria-invalid={Boolean(errors.authorRole)}
 									disabled={isSubmitting}
 								/>
 								<FieldError
 									errors={
 										errors.authorRole
-											? [{ message: t(errors.authorRole.message ?? '') }]
+											? [{ message: t(errors.authorRole.message ?? "") }]
 											: fieldErrors?.authorRole?.map((m) => ({ message: m }))
 									}
 								/>
@@ -234,16 +223,12 @@ export function ReviewForm({ className }: ReviewFormProps) {
 			</FieldGroup>
 
 			<div className="flex flex-col gap-2">
-				<Button
-					type="submit"
-					disabled={submitDisabled}
-					className="self-start"
-				>
+				<Button type="submit" disabled={submitDisabled} className="self-start">
 					{countdown !== null
-						? t('home.reviews.form.submitting', { seconds: countdown })
+						? t("home.reviews.form.submitting", { seconds: countdown })
 						: isSubmitting
-							? t('home.reviews.form.submittingShort')
-							: t('home.reviews.form.submit')}
+							? t("home.reviews.form.submittingShort")
+							: t("home.reviews.form.submit")}
 				</Button>
 
 				<FormError

@@ -35,9 +35,10 @@ export type HomeFeaturedData = {
  * because it is derived live from the published project count
  * below.
  */
-const HOME_METRICS_MANUAL: Pick<HomeMetrics, 'activeWorks' | 'retainedClients'> = {
+const HOME_METRICS_MANUAL: HomeMetrics = {
 	activeWorks: 1,
 	retainedClients: 4,
+	deliveredProjects: 7
 };
 
 export async function fetchHomeFeatured(
@@ -58,7 +59,7 @@ export async function fetchHomeFeatured(
 
 	const homeMetrics: HomeMetrics = {
 		...HOME_METRICS_MANUAL,
-		deliveredProjects: projectsResult.data.total,
+		deliveredProjects: projectsResult.data.total + HOME_METRICS_MANUAL.deliveredProjects,
 	};
 
 	return {

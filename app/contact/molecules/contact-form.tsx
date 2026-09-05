@@ -130,7 +130,7 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 			onSubmit={handleSubmit(onSubmit)}
 			className={cn('flex flex-col gap-6', className)}
 		>
-			<FieldGroup>
+			<FieldGroup className="gap-2">
 				<Controller
 					control={control}
 					name="name"

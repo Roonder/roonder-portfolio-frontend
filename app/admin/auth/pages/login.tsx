@@ -129,7 +129,7 @@ export default function LoginPage() {
 					</FieldGroup>
 				) : null}
 
-				<FieldGroup>
+				<FieldGroup className="gap-2">
 					<Field>
 						<FieldLabel htmlFor="email">Email</FieldLabel>
 						<Input

@@ -12,7 +12,9 @@
  *  - `slug` (1–120 chars, lowercase + hyphens only, regex `^[a-z0-9-]+$`)
  *  - `description` (1–500 chars)
  *  - `content` (optional, free-form markdown)
- *  - `coverImage` (optional, URL with http/https protocol)
+ *  - `coverImage` (optional, opaque S3 object key returned by the
+ *    cover-image upload endpoint — NOT a URL; the backend resolves it
+ *    to a freshly-signed URL on every read)
  *  - `tags` (optional, array of non-empty strings; normalized via
  *    trim + lowercase + dedupe in the transform)
  *  - `isPublished` (boolean, default false)
@@ -24,7 +26,6 @@
 import { z } from 'zod';
 
 const SLUG_REGEX = /^[a-z0-9-]+$/;
-const URL_REGEX = /^https?:\/\/.+/;
 
 export const projectUrlInputSchema = z.object({
 	title: z.string().trim().min(1, 'Title is required'),
@@ -53,15 +54,10 @@ export const adminProjectSchema = z
 			.min(1, 'Description is required')
 			.max(500, 'Description must be 500 characters or less'),
 		content: z.string().trim().optional().default(''),
-		coverImage: z
-			.string()
-			.trim()
-			.optional()
-			.default('')
-			.refine(
-				(val) => val === '' || URL_REGEX.test(val),
-				'Cover image must be a valid URL (http or https)',
-			),
+		// Opaque S3 object key (e.g. `covers/<uuid>.jpg`), set by the
+		// upload handler in `AdminProjectForm` — not user-typed, so no
+		// format validation beyond "it's a string" is meaningful here.
+		coverImage: z.string().trim().optional().default(''),
 		tags: z
 			.array(z.string().trim().min(1, 'Tag cannot be empty'))
 			.optional()

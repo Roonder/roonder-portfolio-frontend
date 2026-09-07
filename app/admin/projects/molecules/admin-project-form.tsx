@@ -11,17 +11,19 @@
  *  2. slug (text input)
  *  3. description (textarea)
  *  4. content (textarea, optional markdown)
- *  5. coverImage (url input, optional)
+ *  5. coverImage (file upload, optional — uploads immediately on
+ *     selection and stores the returned S3 object key)
  *  6. tags (text input, comma-separated, optional)
  *  7. isPublished (switch toggle)
  *  8. urls (textarea, one per line as `title | url`, optional)
  *
  * NO `useMemo` / `useCallback` / `React.memo` (React Compiler era).
  */
-import { useEffect } from 'react';
+import { useEffect, useState, type ChangeEvent } from 'react';
 import { useFetcher } from 'react-router';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import { cn } from '~/shared/lib/cn';
 
@@ -29,6 +31,7 @@ import {
 	adminProjectSchema,
 	type AdminProjectValues,
 } from '~/admin/projects/schema';
+import { uploadCoverImage } from '~/admin/projects/api/upload-cover-image';
 import { API_ERROR_KIND, type ApiError } from '~/shared/lib/fetch-client/errors';
 
 import {
@@ -94,6 +97,15 @@ export function AdminProjectForm({
 	const isSubmitting = fetcher.state !== 'idle';
 	const error = fetcher.data?.error;
 
+	// Cover image upload state. `coverImagePreview` is a local
+	// `URL.createObjectURL` preview of the just-selected file — it
+	// never needs a round-trip since it only reflects what the admin
+	// picked. The stored `coverImage` form field holds the opaque S3
+	// key returned by the upload endpoint, not a displayable URL.
+	const [coverImagePreview, setCoverImagePreview] = useState<string | null>(null);
+	const [isUploadingCover, setIsUploadingCover] = useState(false);
+	const hasExistingCoverImage = Boolean(defaultValues?.coverImage);
+
 	const {
 		control,
 		register,
@@ -128,6 +140,26 @@ export function AdminProjectForm({
 
 	const fieldErrors =
 		error?.kind === API_ERROR_KIND.validation ? error.fieldErrors : undefined;
+
+	async function handleCoverImageChange(e: ChangeEvent<HTMLInputElement>) {
+		const file = e.target.files?.[0];
+		if (!file) return;
+
+		setCoverImagePreview(URL.createObjectURL(file));
+		setIsUploadingCover(true);
+		try {
+			const { key } = await uploadCoverImage(file);
+			setValue('coverImage', key);
+		} catch (err) {
+			toast.error(err instanceof Error ? err.message : 'Cover image upload failed');
+			setCoverImagePreview(null);
+			setValue('coverImage', '');
+		} finally {
+			setIsUploadingCover(false);
+			// Allow re-selecting the same file after a failed upload.
+			e.target.value = '';
+		}
+	}
 
 	function onSubmit(values: AdminProjectValues) {
 		const fd = new FormData();
@@ -256,15 +288,30 @@ export function AdminProjectForm({
 				</Field>
 
 				<Field>
-					<FieldLabel htmlFor="admin-cover">Cover Image URL</FieldLabel>
+					<FieldLabel htmlFor="admin-cover">Cover Image</FieldLabel>
+					<input type="hidden" {...register('coverImage')} />
 					<Input
-						{...register('coverImage')}
 						id="admin-cover"
-						type="url"
-						placeholder="https://example.com/cover.jpg"
+						type="file"
+						accept="image/*"
+						onChange={handleCoverImageChange}
 						aria-invalid={Boolean(errors.coverImage)}
-						disabled={isSubmitting}
+						disabled={isSubmitting || isUploadingCover}
 					/>
+					{isUploadingCover ? (
+						<p className="text-sm text-muted-foreground">Uploading…</p>
+					) : null}
+					{coverImagePreview ? (
+						<img
+							src={coverImagePreview}
+							alt="Cover preview"
+							className="mt-2 h-32 w-full max-w-xs rounded-none border border-input object-cover"
+						/>
+					) : hasExistingCoverImage ? (
+						<p className="text-sm text-muted-foreground">
+							Current cover image on file — upload a new one to replace it.
+						</p>
+					) : null}
 					<FieldError
 						errors={
 							errors.coverImage

@@ -45,7 +45,10 @@ export async function action({ request, params }: Route.ActionArgs) {
 	const { id } = params;
 	if (!id) return data({ error: 'Missing project id' }, { status: 400 });
 
-	const form = await request.formData();
+	// Peek at `_method` via a clone — `updateProjectAction`/
+	// `deleteProjectAction` each read the ORIGINAL request's body
+	// themselves, and a `Request` body can only be consumed once.
+	const form = await request.clone().formData();
 	const method = form.get('_method');
 
 	if (method === 'DELETE') {
@@ -53,7 +56,9 @@ export async function action({ request, params }: Route.ActionArgs) {
 		if (!result.ok) {
 			return data({ error: result.error }, { status: result.error.status });
 		}
-		return redirect('/administration-panel/projects');
+		const headers = new Headers();
+		for (const c of result.setCookies ?? []) headers.append('Set-Cookie', c);
+		return redirect('/administration-panel/projects', { headers });
 	}
 
 	// Default: PATCH (update)
@@ -64,7 +69,9 @@ export async function action({ request, params }: Route.ActionArgs) {
 			{ status: result.error.status >= 400 ? result.error.status : 400 },
 		);
 	}
-	return redirect('/administration-panel/projects');
+	const headers = new Headers();
+	for (const c of result.setCookies ?? []) headers.append('Set-Cookie', c);
+	return redirect('/administration-panel/projects', { headers });
 }
 
 export function meta({}: Route.MetaArgs) {

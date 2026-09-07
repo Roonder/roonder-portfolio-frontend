@@ -7,7 +7,8 @@
 		"title": "Hablemos",
 		"subtitle": "Cuéntame el cuello de botella — no el listado de features.",
 		"intro": "Envía un mensaje y te responderé en 48 horas con preguntas reales, no un discurso de ventas.",
-		"success": "Mensaje recibido. Espera una respuesta en 48 horas."
+		"success": "Mensaje recibido. Espera una respuesta en 48 horas.",
+		"mailButton": "Envíame un correo"
 	},
 	"form": {
 		"name": "Nombre",

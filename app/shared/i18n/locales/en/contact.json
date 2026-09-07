@@ -7,7 +7,8 @@
 		"title": "Let's Talk",
 		"subtitle": "Tell me about the bottleneck — not the feature list.",
 		"intro": "Send a message and I'll get back to you within 48 hours with real questions, not a sales pitch.",
-		"success": "Message received. Expect a response within 48 hours."
+		"success": "Message received. Expect a response within 48 hours.",
+		"mailButton": "Email Me"
 	},
 	"form": {
 		"name": "Name",

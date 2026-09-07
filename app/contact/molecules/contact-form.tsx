@@ -28,7 +28,7 @@ import {
 	type ContactFormValues,
 } from '~/contact/schema';
 import { FormError } from '~/contact/atoms/form-error';
-import { useToastStore } from '~/shared/stores/toasts';
+import { toast } from 'sonner';
 import { API_ERROR_KIND, ApiError } from '~/shared/lib/fetch-client/errors';
 
 import {
@@ -51,7 +51,6 @@ export type ContactFormProps = {
 export function ContactForm({ className, submitLabel }: ContactFormProps) {
 	const { t } = useTranslation();
 	const fetcher = useFetcher();
-	const pushToast = useToastStore((s) => s.push);
 
 	const isSubmitting = fetcher.state !== 'idle';
 	const data = fetcher.data as
@@ -100,10 +99,10 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 	// Success toast + form reset when the action returns 201.
 	useEffect(() => {
 		if (data?.ok) {
-			pushToast({ kind: 'success', message: t('contact.form.success') });
+			toast.success(t('contact.form.success'));
 			reset();
 		}
-	}, [data, pushToast, reset, t]);
+	}, [data, reset, t]);
 
 	const fieldErrors =
 		actionError?.kind === API_ERROR_KIND.validation

@@ -21,7 +21,7 @@ import { cn } from "~/shared/lib/cn";
 import { createReviewSchema, type CreateReviewValues } from "~/home/schema";
 import { submitReview } from "~/home/api/reviews";
 import { FormError } from "~/contact/atoms/form-error";
-import { useToastStore } from "~/shared/stores/toasts";
+import { toast } from "sonner";
 import { API_ERROR_KIND, ApiError } from "~/shared/lib/fetch-client/errors";
 
 import { Field, FieldError, FieldGroup, FieldLabel } from "~/components/ui/field";
@@ -35,7 +35,6 @@ export type ReviewFormProps = {
 
 export function ReviewForm({ className }: ReviewFormProps) {
 	const { t } = useTranslation();
-	const pushToast = useToastStore((s) => s.push);
 	const [actionError, setActionError] = useState<ApiError | null>(null);
 	const [countdown, setCountdown] = useState<number | null>(null);
 
@@ -81,7 +80,7 @@ export function ReviewForm({ className }: ReviewFormProps) {
 		const result = await submitReview(values);
 		if (result.ok) {
 			setTimeout(() => {
-				pushToast({ kind: "success", message: t("home.reviews.form.success") });
+				toast.success(t("home.reviews.form.success"));
 				reset();
 			}, 1e3);
 

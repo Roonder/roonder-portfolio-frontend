@@ -20,7 +20,7 @@ import { X } from 'lucide-react';
 import { cn } from '~/shared/lib/cn';
 
 import { useUIStore } from '~/shared/stores/ui';
-import { useToastStore } from '~/shared/stores/toasts';
+import { toast } from 'sonner';
 import { IconButton } from '~/shared/ui/atoms/icon-button';
 import { MicroLabel } from '~/shared/ui/atoms/micro-label';
 import { ProjectMeta } from '~/works/molecules/project-meta';
@@ -50,17 +50,13 @@ export function ProjectDrawer({
 	const open = useUIStore((s) => s.drawerOpen);
 	const slug = useUIStore((s) => s.drawerSlug);
 	const close = useUIStore((s) => s.closeDrawer);
-	const pushToast = useToastStore((s) => s.push);
 
 	const project = slug ? projectsBySlug[slug] : null;
 
 	const handleLiveLaunch = () => {
 		if (!project) return;
 		close();
-		pushToast({
-			kind: 'info',
-			message: t('works.drawer.launching', { title: project.title }),
-		});
+		toast.info(t('works.drawer.launching', { title: project.title }));
 	};
 
 	return (

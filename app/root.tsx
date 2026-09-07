@@ -11,6 +11,7 @@ import {
 import type { Route } from "./+types/root";
 import { useSessionStore } from "~/shared/stores/session";
 import { useLocaleStore } from "~/shared/stores/locale";
+import { Toaster } from "~/components/ui/sonner";
 // Side-effect import: initializes the i18next singleton so any
 // component that calls t(...) before the _public loader runs is
 // already wired up. Mirrors the useSessionStore.hydrate pattern
@@ -39,6 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			</head>
 			<body className="font-sans">
 				{children}
+				<Toaster />
 				<ScrollRestoration />
 				<Scripts />
 			</body>

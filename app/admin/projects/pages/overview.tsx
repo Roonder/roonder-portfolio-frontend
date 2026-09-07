@@ -43,12 +43,14 @@ export default function AdminOverviewPage({
 					delta={`+${stats.activeWorksThisMonth} this month`}
 					icon={<Folder className="size-5" aria-hidden="true" />}
 				/>
-				<AdminStatCard
-					value={stats.reviewsPending}
-					label="Reviews"
-					delta={stats.reviewsPending > 0 ? 'Pending approval' : 'All caught up'}
-					icon={<Star className="size-5" aria-hidden="true" />}
-				/>
+				<Link to="/administration-panel/reviews?status=pending">
+					<AdminStatCard
+						value={stats.reviewsPending}
+						label="Reviews"
+						delta={stats.reviewsPending > 0 ? 'Pending approval' : 'All caught up'}
+						icon={<Star className="size-5" aria-hidden="true" />}
+					/>
+				</Link>
 				<AdminStatCard
 					value={stats.inboxPending}
 					label="Inbox"

@@ -85,8 +85,17 @@ export const swrKeys = {
 			stats: () => '/api/v1/admin/stats',
 		},
 		reviews: {
-			list: (filters?: { published?: boolean; page?: number }) =>
-				`/api/v1/admin/reviews${toQuery(filters ?? {})}`,
+			/** `GET /api/v1/admin/reviews` — list any approval state. */
+			list: (filters?: {
+				page?: number;
+				pageSize?: number;
+				rating?: number;
+				isApproved?: boolean;
+			}) => `/api/v1/admin/reviews${toQuery(filters ?? {})}`,
+			/** `PATCH /api/v1/admin/reviews/:id/approve` — idempotent toggle. */
+			approve: (id: string) => `/api/v1/admin/reviews/${id}/approve`,
+			/** `DELETE /api/v1/admin/reviews/:id`. */
+			delete: (id: string) => `/api/v1/admin/reviews/${id}`,
 		},
 		contact: {
 			list: (filters?: { unread?: boolean; page?: number }) =>

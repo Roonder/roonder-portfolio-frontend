@@ -2,8 +2,9 @@
  * `MobileTabBar` — the admin mobile tab bar.
  *
  * Three tabs: Projects / Reviews / Inbox. Per locked decision
- * Q-3/Q-20, only Projects is wired in v1; Reviews and Inbox are
- * placeholders that push a "Coming soon" toast (REQ-ADM-6).
+ * Q-3/Q-20, only Projects was wired in v1; Reviews is now a real
+ * moderation UI, so it navigates too. Inbox remains a placeholder
+ * that pushes a "Coming soon" toast (REQ-ADM-6) until it ships.
  */
 import { Folder, Mail, Star } from 'lucide-react';
 import { useNavigate } from 'react-router';
@@ -12,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { cn } from '~/shared/lib/cn';
 
 import { useUIStore, type AdminTab } from '~/shared/stores/ui';
-import { useToastStore } from '~/shared/stores/toasts';
+import { toast } from 'sonner';
 
 export type MobileTabBarProps = {
 	className?: string;
@@ -34,17 +35,16 @@ const TABS: TabDef[] = [
 export function MobileTabBar({ className }: MobileTabBarProps) {
 	const active = useUIStore((s) => s.activeAdminTab);
 	const setActive = useUIStore((s) => s.setActiveAdminTab);
-	const pushToast = useToastStore((s) => s.push);
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 
 	function handleTabClick(tab: TabDef) {
 		setActive(tab.id);
-		if (tab.id === 'projects') {
+		if (tab.id === 'projects' || tab.id === 'reviews') {
 			navigate(tab.to);
 		} else {
-			// Reviews and Inbox are placeholders (Q-3 / Q-20)
-			pushToast({ kind: 'info', message: t('admin.comingSoon') });
+			// Inbox is still a placeholder (Q-3 / Q-20)
+			toast.info(t('admin.comingSoon'));
 		}
 	}
 

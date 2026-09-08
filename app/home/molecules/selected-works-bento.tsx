@@ -33,7 +33,7 @@ export function SelectedWorksBento({
 	return (
 		<section
 			data-slot="selected-works-bento"
-			className={cn('flex flex-col gap-4', className)}
+			className={cn('flex flex-col gap-4 my-2', className)}
 		>
 			<header className="flex flex-col gap-1">
 				<MicroLabel label="PROYECTOS" />

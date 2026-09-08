@@ -51,7 +51,8 @@
 		"contact": {
 			"title": "Let's Talk",
 			"subtitle": "Tell me about the bottleneck — I'll respond within 48 hours with real questions, not a sales pitch.",
-			"cta": "Email Me"
+			"cta": "Email Me",
+			"cal-cta": "Schedule a call"
 		}
 	},
 	"reviews": {

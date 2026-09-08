@@ -51,7 +51,8 @@
 		"contact": {
 			"title": "Hablemos",
 			"subtitle": "Cuéntame el cuello de botella — te responderé en 48 horas con preguntas reales, no un discurso de ventas.",
-			"cta": "Envíame un correo"
+			"cta": "Envíame un correo",
+			"cal-cta": "Agenda una reunión"
 		}
 	},
 	"reviews": {

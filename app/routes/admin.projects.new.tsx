@@ -2,8 +2,8 @@
  * Admin new-project route.
  *
  * The action validates the form with `adminProjectSchema` and POSTs
- * to `/api/v1/admin/projects`. On 201, the action invalidates the
- * SWR list key and redirects to the edit page for the new project.
+ * to `/api/v1/projects`. On 201, the action invalidates the SWR list
+ * key and this route redirects to the edit page for the new project.
  * REQ-ADM-2.
  */
 import { data, redirect } from 'react-router';
@@ -22,8 +22,10 @@ export async function action({ request }: Route.ActionArgs) {
 		);
 	}
 
-	// createProjectAction returns a redirect on success
-	return result;
+	const created = result.data as { id: string };
+	const headers = new Headers();
+	for (const c of result.setCookies ?? []) headers.append('Set-Cookie', c);
+	return redirect(`/administration-panel/projects/${created.id}`, { headers });
 }
 
 export function meta({}: Route.MetaArgs) {

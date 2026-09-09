@@ -28,7 +28,7 @@ import {
 	type ContactFormValues,
 } from '~/contact/schema';
 import { FormError } from '~/contact/atoms/form-error';
-import { useToastStore } from '~/shared/stores/toasts';
+import { toast } from 'sonner';
 import { API_ERROR_KIND, ApiError } from '~/shared/lib/fetch-client/errors';
 
 import {
@@ -51,7 +51,6 @@ export type ContactFormProps = {
 export function ContactForm({ className, submitLabel }: ContactFormProps) {
 	const { t } = useTranslation();
 	const fetcher = useFetcher();
-	const pushToast = useToastStore((s) => s.push);
 
 	const isSubmitting = fetcher.state !== 'idle';
 	const data = fetcher.data as
@@ -100,10 +99,10 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 	// Success toast + form reset when the action returns 201.
 	useEffect(() => {
 		if (data?.ok) {
-			pushToast({ kind: 'success', message: t('contact.form.success') });
+			toast.success(t('contact.form.success'));
 			reset();
 		}
-	}, [data, pushToast, reset, t]);
+	}, [data, reset, t]);
 
 	const fieldErrors =
 		actionError?.kind === API_ERROR_KIND.validation
@@ -130,7 +129,7 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 			onSubmit={handleSubmit(onSubmit)}
 			className={cn('flex flex-col gap-6', className)}
 		>
-			<FieldGroup>
+			<FieldGroup className="gap-2">
 				<Controller
 					control={control}
 					name="name"
@@ -144,7 +143,7 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 								id="contact-name"
 								type="text"
 								autoComplete="name"
-								placeholder={t('contact.form.name')}
+								placeholder={t('contact.form.namePlaceholder')}
 								aria-invalid={Boolean(errors.name)}
 								disabled={isSubmitting}
 							/>
@@ -172,7 +171,7 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 								id="contact-email"
 								type="email"
 								autoComplete="email"
-								placeholder={t('contact.form.email')}
+								placeholder={t('contact.form.emailPlaceholder')}
 								aria-invalid={Boolean(errors.email)}
 								disabled={isSubmitting}
 							/>
@@ -199,7 +198,7 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 								{...field}
 								id="contact-subject"
 								type="text"
-								placeholder={t('contact.form.subject')}
+								placeholder={t('contact.form.subjectPlaceholder')}
 								aria-invalid={Boolean(errors.subject)}
 								disabled={isSubmitting}
 							/>
@@ -226,7 +225,7 @@ export function ContactForm({ className, submitLabel }: ContactFormProps) {
 								{...field}
 								id="contact-message"
 								rows={6}
-								placeholder={t('contact.form.body')}
+								placeholder={t('contact.form.bodyPlaceholder')}
 								aria-invalid={Boolean(errors.message)}
 								disabled={isSubmitting}
 							/>

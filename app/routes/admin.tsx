@@ -10,13 +10,13 @@ import { MobileTabBar } from '~/shared/ui/molecules/mobile-tab-bar';
  * Admin surface layout.
  *
  * The loader implements the auth gate (REQ-GATE-1..4):
- *  - `/admin/auth` is exempt so the login form is reachable
+ *  - `/administration-panel/auth` is exempt so the login form is reachable
  *    unauthenticated (REQ-GATE-3).
  *  - For every other admin route, `getSession(request)` reads the
  *    `access` cookie, calls `GET /api/v1/auth/profile` via
  *    `serverFetch`, and returns the user + any `Set-Cookie` the
  *    internal response carried. On 401 (terminal) it throws
- *    `redirect('/admin/auth?next=…')` (REQ-GATE-2).
+ *    `redirect('/administration-panel/auth?next=…')` (REQ-GATE-2).
  *  - The `Set-Cookie` array is forwarded via `data({ user }, {
  *    headers })` so a server-side silent refresh updates the
  *    browser's `rt` (REQ-GATE-4).
@@ -26,7 +26,7 @@ import { MobileTabBar } from '~/shared/ui/molecules/mobile-tab-bar';
  */
 export async function loader({ request }: Route.LoaderArgs) {
 	const url = new URL(request.url);
-	if (url.pathname.startsWith('/admin/auth')) {
+	if (url.pathname.startsWith('/administration-panel/auth')) {
 		return { authenticated: false as const };
 	}
 

@@ -34,8 +34,8 @@ export const swrKeys = {
 		 */
 		featured: () =>
 			[
-				'/api/v1/projects?featured=true',
-				'/api/v1/reviews?featured=true',
+				'/api/v1/projects?pageSize=10',
+				'/api/v1/reviews?pageSize=10',
 			] as const,
 		/**
 		 * `GET /api/v1/home/metrics` — BLOCKED-ON-BACKEND.
@@ -64,20 +64,38 @@ export const swrKeys = {
 	},
 	admin: {
 		projects: {
-			list: (filters?: { page?: number; status?: string }) =>
-				`/api/v1/admin/projects${toQuery(filters ?? {})}`,
-			byId: (id: string) => `/api/v1/admin/projects/${id}`,
 			/**
-			 * `GET /api/v1/admin/projects/stats` — BLOCKED-ON-BACKEND.
-			 * Same disposition as `home.metrics`; the admin overview
-			 * uses the hardcoded fallback `{activeWorks: 24, delta:
-			 * "+3 this month"}` (REQ-ADM-11).
+			 * `GET /api/v1/projects/admin` — list any publish state.
+			 * `status` ('published' | 'draft' | undefined) is mapped to
+			 * the backend's `isPublished` boolean filter here so the
+			 * URL matches the actual query contract
+			 * (`ListProjectsQueryDto`) instead of inventing a parallel
+			 * `status` param the backend never accepts.
 			 */
-			stats: () => '/api/v1/admin/projects/stats',
+			list: (filters?: { page?: number; status?: string; pageSize?: number }) => {
+				const { status, ...rest } = filters ?? {};
+				const isPublished =
+					status === 'published' ? true : status === 'draft' ? false : undefined;
+				return `/api/v1/projects/admin${toQuery({ ...rest, isPublished })}`;
+			},
+			/** `GET/PATCH/DELETE /api/v1/projects/by-id/:id` (read) or `/:id` (write). */
+			byId: (id: string) => `/api/v1/projects/by-id/${id}`,
+			mutateUrl: (id: string) => `/api/v1/projects/${id}`,
+			create: () => '/api/v1/projects',
+			stats: () => '/api/v1/admin/stats',
 		},
 		reviews: {
-			list: (filters?: { published?: boolean; page?: number }) =>
-				`/api/v1/admin/reviews${toQuery(filters ?? {})}`,
+			/** `GET /api/v1/admin/reviews` — list any approval state. */
+			list: (filters?: {
+				page?: number;
+				pageSize?: number;
+				rating?: number;
+				isApproved?: boolean;
+			}) => `/api/v1/admin/reviews${toQuery(filters ?? {})}`,
+			/** `PATCH /api/v1/admin/reviews/:id/approve` — idempotent toggle. */
+			approve: (id: string) => `/api/v1/admin/reviews/${id}/approve`,
+			/** `DELETE /api/v1/admin/reviews/:id`. */
+			delete: (id: string) => `/api/v1/admin/reviews/${id}`,
 		},
 		contact: {
 			list: (filters?: { unread?: boolean; page?: number }) =>

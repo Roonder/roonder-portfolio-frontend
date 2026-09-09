@@ -4,16 +4,21 @@
 		"description": "Ponte en contacto para consultas de proyectos, prensa o colaboraciones estratégicas."
 	},
 	"page": {
-		"title": "Iniciar Contacto",
-		"subtitle": "Para consultas de proyectos, prensa o colaboraciones estratégicas.",
-		"intro": "Envía una transmisión y te responderé en 48 horas.",
-		"success": "Transmisión recibida. Espera una respuesta en 48 horas."
+		"title": "Hablemos",
+		"subtitle": "Cuéntame el cuello de botella — no el listado de features.",
+		"intro": "Envía un mensaje y te responderé en 48 horas con preguntas reales, no un discurso de ventas.",
+		"success": "Mensaje recibido. Espera una respuesta en 48 horas.",
+		"mailButton": "Envíame un correo"
 	},
 	"form": {
 		"name": "Nombre",
+		"namePlaceholder": "Ana García",
 		"email": "Correo",
+		"emailPlaceholder": "ana@tuempresa.com",
 		"subject": "Asunto",
+		"subjectPlaceholder": "Consultoría de arquitectura para rehacer el checkout",
 		"body": "Mensaje",
+		"bodyPlaceholder": "Estamos perdiendo pedidos en el checkout y no sé si es la pasarela de pago o nuestra propia cola…",
 		"submit": "Enviar Mensaje",
 		"submitting": "Enviando… ({{seconds}}s)",
 		"submittingShort": "Enviando…",

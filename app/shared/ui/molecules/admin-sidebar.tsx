@@ -21,10 +21,10 @@ export type AdminSidebarProps = {
 type NavItem = { to: string; label: string; Icon: typeof Home };
 
 const NAV: NavItem[] = [
-	{ to: '/admin', label: 'Overview', Icon: Home },
-	{ to: '/admin/projects', label: 'Projects', Icon: Folder },
-	{ to: '/admin/reviews', label: 'Reviews', Icon: Star },
-	{ to: '/admin/contact', label: 'Inbox', Icon: Mail },
+	{ to: '/administration-panel', label: 'Overview', Icon: Home },
+	{ to: '/administration-panel/projects', label: 'Projects', Icon: Folder },
+	{ to: '/administration-panel/reviews', label: 'Reviews', Icon: Star },
+	{ to: '/administration-panel/contact', label: 'Inbox', Icon: Mail },
 ];
 
 export function AdminSidebar({ className }: AdminSidebarProps) {
@@ -49,7 +49,7 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
 					<NavLink
 						key={to}
 						to={to}
-						end={to === '/admin'}
+						end={to === '/administration-panel'}
 						className={({ isActive }) =>
 							cn(
 								'inline-flex items-center gap-3 rounded-md px-3 py-2 text-sm transition-colors',
@@ -66,7 +66,7 @@ export function AdminSidebar({ className }: AdminSidebarProps) {
 			</nav>
 
 			<div className="mt-auto pt-6">
-				<form method="post" action="/admin/auth/logout">
+				<form method="post" action="/administration-panel/auth/logout">
 					<button
 						type="submit"
 						className="inline-flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-surface-container hover:text-primary"

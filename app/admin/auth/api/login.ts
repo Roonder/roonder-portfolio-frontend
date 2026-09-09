@@ -2,7 +2,7 @@
  * `loginAction` — the React Router server action for admin login.
  *
  * Called by the login form's `fetcher.submit(values, { method: 'post',
- * action: '/admin/auth' })`. The route at `app/routes/admin.auth.tsx`
+ * action: '/administration-panel/auth' })`. The route at `app/routes/admin.auth.tsx`
  * re-exports this as its `action` so the framework can dispatch it.
  *
  * Flow (per design §4.1):
@@ -11,7 +11,7 @@
  *  2. POST credentials via `serverFetch` (which forwards the
  *     incoming `Cookie` header, reads the `access` cookie as the
  *     bearer fallback, and captures the backend's `Set-Cookie`).
- *  3. On 200: redirect to `next` (or `/admin` if missing/invalid)
+ *  3. On 200: redirect to `next` (or `/administration-panel` if missing/invalid)
  *     and forward the new `access` + `rt` cookies on the response
  *     so the browser stores them. `data({}, { headers })` is the
  *     React Router 8 mechanism for this.

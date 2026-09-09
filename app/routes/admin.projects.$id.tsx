@@ -5,8 +5,8 @@
  * the form. The action supports PATCH (save) and DELETE (via the
  * `_method` discriminator in FormData). REQ-ADM-3, REQ-ADM-5.
  *
- * On PATCH 200: invalidate both SWR keys, redirect to `/admin/projects`.
- * On DELETE 204: invalidate the list SWR key, redirect to `/admin/projects`.
+ * On PATCH 200: invalidate both SWR keys, redirect to `/administration-panel/projects`.
+ * On DELETE 204: invalidate the list SWR key, redirect to `/administration-panel/projects`.
  * On 404: render the "Project not found" UI via ErrorBoundary.
  */
 import { data, redirect } from 'react-router';
@@ -22,7 +22,7 @@ import AdminProjectEditPage from '~/admin/projects/pages/edit';
 
 export async function loader({ request, params }: Route.LoaderArgs) {
 	const { id } = params;
-	if (!id) throw redirect('/admin/projects');
+	if (!id) throw redirect('/administration-panel/projects');
 
 	try {
 		const result = await getAdminProjectById(request, id);
@@ -45,7 +45,10 @@ export async function action({ request, params }: Route.ActionArgs) {
 	const { id } = params;
 	if (!id) return data({ error: 'Missing project id' }, { status: 400 });
 
-	const form = await request.formData();
+	// Peek at `_method` via a clone — `updateProjectAction`/
+	// `deleteProjectAction` each read the ORIGINAL request's body
+	// themselves, and a `Request` body can only be consumed once.
+	const form = await request.clone().formData();
 	const method = form.get('_method');
 
 	if (method === 'DELETE') {
@@ -53,7 +56,9 @@ export async function action({ request, params }: Route.ActionArgs) {
 		if (!result.ok) {
 			return data({ error: result.error }, { status: result.error.status });
 		}
-		return redirect('/admin/projects');
+		const headers = new Headers();
+		for (const c of result.setCookies ?? []) headers.append('Set-Cookie', c);
+		return redirect('/administration-panel/projects', { headers });
 	}
 
 	// Default: PATCH (update)
@@ -64,7 +69,9 @@ export async function action({ request, params }: Route.ActionArgs) {
 			{ status: result.error.status >= 400 ? result.error.status : 400 },
 		);
 	}
-	return redirect('/admin/projects');
+	const headers = new Headers();
+	for (const c of result.setCookies ?? []) headers.append('Set-Cookie', c);
+	return redirect('/administration-panel/projects', { headers });
 }
 
 export function meta({}: Route.MetaArgs) {

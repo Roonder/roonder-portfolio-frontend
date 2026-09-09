@@ -4,9 +4,9 @@
 		"description": "Artesanía digital con lógica pura. Portafolio de Juliam Aponte."
 	},
 	"hero": {
-		"headline": "Artesanía digital con lógica pura",
-		"subhead": "Especializado en sistemas de alto rendimiento, con raíces sólidas, procesos pulidos y visiones concretadas.",
-		"cta": "Iniciar Contacto",
+		"headline": "Resultados, no horas facturadas",
+		"subhead": "Mi prioridad no es acumular horas de código, sino entender la traba operativa de tu empresa para trazar una solución precisa: optimizamos tus recursos actuales, eliminamos el cuello de botella y le devolvemos tiempo productivo a tu equipo.",
+		"cta": "Hablemos",
 		"ctaSecondary": "Ver Proyectos"
 	},
 	"metrics": {
@@ -19,30 +19,65 @@
 	},
 	"about": {
 		"title": "Sobre {{brand}}",
-		"body": "Soy {{brand}} — un estratega técnico enfocado en la intersección entre ingeniería robusta y diseño editorial. Trabajo con fundadores y equipos de producto para enviar sistemas que sobreviven al contacto con la realidad.",
-		"stat1": "Obras activas",
-		"stat2": "Clientes retenidos",
-		"stat3": "Proyectos entregados"
+		"body": "Soy {{brand}}, Desarrollador y Arquitecto de Software especializado en garantizar predictibilidad operativa a través de la tecnología. Ayudo a PyMEs y clientes con visión a desatascar sus procesos y eliminar cuellos de botella, aplicando una regla simple: Planificar y Actuar. Primero armo especificaciones claras y logrables —sin metas fantasiosas— y luego paso a la acción de forma eficiente, combinando bases sólidas de programación con desarrollo guiado por agentes de IA. El resultado: una estructura escalable que devuelve tu concentración al negocio, no a la operatividad."
 	},
 	"sections": {
 		"about": {
 			"title": "Sobre Mí",
 			"body": "Soy {{brand}} — un estratega técnico enfocado en la intersección entre ingeniería robusta y diseño editorial."
 		},
+		"methodology": {
+			"title": "Cómo Trabajo",
+			"subtitle": "Entender, Planificar, Actuar — en ese orden.",
+			"understand": {
+				"title": "Entender",
+				"body": "No se trata solo del síntoma y la causa inmediata: busco el porqué detrás del negocio y el origen real del punto de dolor. Absorbo el contexto de tu empresa antes de dar cualquier opinión fundada."
+			},
+			"plan": {
+				"title": "Planificar",
+				"body": "Planificar no es solo mover piezas técnicas — suscripciones, tecnologías, enfoques. Es proyectar cómo ese enfoque técnico impacta a las personas que realmente lo van a usar."
+			},
+			"act": {
+				"title": "Actuar",
+				"body": "Actuar no es una carrera de velocidad. Ejecuto a la velocidad máxima que permiten la urgencia real y la complejidad del proyecto — ni más, ni menos."
+			}
+		},
 		"works": {
 			"title": "Proyectos Seleccionados"
 		},
 		"reviews": {
-			"title": "Voces de Clientes"
+			"title": "Lo que dicen mis clientes"
 		},
 		"contact": {
-			"title": "Iniciar Contacto",
-			"subtitle": "Envía una transmisión — responderé en 48 horas.",
-			"cta": "Enviar Mensaje"
+			"title": "Hablemos",
+			"subtitle": "Cuéntame el cuello de botella — te responderé en 48 horas con preguntas reales, no un discurso de ventas.",
+			"cta": "Envíame un correo",
+			"cal-cta": "Agenda una reunión"
 		}
 	},
 	"reviews": {
 		"comingSoon": "Próximamente un formulario público de reseñas. Mientras tanto, las voces abajo son de clientes pasados.",
-		"empty": "Aún no hay voces de clientes — sé el primero."
+		"empty": "Aún no hay voces de clientes — sé el primero.",
+		"form": {
+			"rating": "Calificación",
+			"ratingValue": "{{value}} de 5 estrellas",
+			"content": "Tu reseña",
+			"contentPlaceholder": "Juliam mapeó el cuello de botella de nuestro onboarding en una semana y entregó una solución que realmente funcionó.",
+			"authorName": "Nombre (opcional)",
+			"authorNamePlaceholder": "Ana García",
+			"authorRole": "Cargo / empresa (opcional)",
+			"authorRolePlaceholder": "COO, Nortec Logistics",
+			"submit": "Enviar reseña",
+			"submitting": "Enviando… ({{seconds}}s)",
+			"submittingShort": "Enviando…",
+			"success": "¡Gracias! Tu reseña está pendiente de aprobación y aparecerá pronto.",
+			"validation": {
+				"authorNameMax": "El nombre debe tener 100 caracteres o menos.",
+				"authorRoleMax": "El cargo debe tener 120 caracteres o menos.",
+				"contentMin": "La reseña debe tener al menos 10 caracteres.",
+				"contentMax": "La reseña debe tener 2000 caracteres o menos.",
+				"ratingRequired": "Elige una calificación de 1 a 5."
+			}
+		}
 	}
 }

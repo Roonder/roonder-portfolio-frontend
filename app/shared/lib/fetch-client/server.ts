@@ -30,6 +30,15 @@ import { readAccessToken } from '../cookies';
 import type { CoreEnv, CoreResult, RequestInit_ } from './core';
 import { requestCore } from './core';
 
+/**
+ * The backend's base URL for SSR `fetch` calls. Node.js cannot resolve
+ * relative URLs — `fetch('/api/v1/projects')` throws `TypeError: Failed
+ * to parse URL`. The `API_BASE_URL` env var (e.g. `http://localhost:3000`)
+ * provides the origin. In production, set this to the backend's public
+ * URL (or leave empty if frontend and backend share an origin).
+ */
+const API_BASE_URL = (process.env.API_BASE_URL ?? '').replace(/\/+$/, '');
+
 export type ServerResult<S extends z.ZodType | undefined = undefined> =
 	CoreResult<S> & {
 		/**
@@ -115,9 +124,18 @@ export async function serverFetch<
 		forwardedHeaders.Cookie = incomingCookie;
 	}
 
+	// Resolve the URL to absolute for Node.js `fetch`. Relative URLs
+	// work in the browser (same-origin resolution) but throw in SSR.
+	// `API_BASE_URL` (e.g. `http://localhost:3000`) provides the origin.
+	// When empty, fall back to the relative URL (works if the backend
+	// shares the origin — e.g. reverse proxy in production).
+	const resolvedUrl = API_BASE_URL
+		? `${API_BASE_URL}${init.url.startsWith('/') ? '' : '/'}${init.url}`
+		: init.url;
+
 	const result = await requestCore<S>(
 		{
-			url: init.url,
+			url: resolvedUrl,
 			method: init.method,
 			body: init.body,
 			signal: init.signal,

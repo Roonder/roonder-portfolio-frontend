@@ -29,42 +29,44 @@ import esContact from '~/shared/i18n/locales/es/contact.json';
 export const LOCALES = ['en', 'es'] as const;
 export type Locale = (typeof LOCALES)[number];
 export const DEFAULT_LOCALE: Locale = 'en';
-export const NAMESPACES = [
-	'common',
-	'home',
-	'works',
-	'contact',
-	'admin',
-] as const;
+// Every call site does `t('home.hero.subhead')`, `t('admin.auth.title')`,
+// etc. — the "domain" is written as a literal key prefix, not passed as
+// an i18next namespace. So all domains live nested inside the single
+// `common` namespace (keyed by domain name) rather than as separate
+// i18next namespaces; otherwise `t(key)` (which always resolves against
+// `defaultNS` when no namespace is given) can never see them.
+export const NAMESPACES = ['common'] as const;
 export type Namespace = (typeof NAMESPACES)[number];
 export const DEFAULT_NAMESPACE: Namespace = 'common';
 
-let initialized = false;
+let initPromise: Promise<I18nInstance> | null = null;
 
 /**
  * Initialize the i18n singleton. Safe to call from server or client;
- * the side-effect import in `app/root.tsx` calls this once before
- * any component renders. The `setLocale` helper (in
- * `set-locale.ts`) and the public layout loader rely on `i18next`
- * being initialized.
+ * returns a promise that resolves when i18next is fully initialized.
+ * The public layout loader (`_public.tsx`) awaits this to ensure the
+ * correct locale is active before any component renders.
  */
-export function initI18n(initialLocale: Locale = DEFAULT_LOCALE): I18nInstance {
-	if (initialized) return i18next;
-	initialized = true;
-	void i18next.use(initReactI18next).init({
+export function initI18n(initialLocale: Locale = DEFAULT_LOCALE): Promise<I18nInstance> {
+	if (initPromise) return initPromise;
+	initPromise = i18next.use(initReactI18next).init({
 		resources: {
 			en: {
-				common: enCommon,
-				home: enHome,
-				works: enWorks,
-				contact: enContact,
-				admin: enAdmin,
+				common: {
+					common: enCommon,
+					home: enHome,
+					works: enWorks,
+					contact: enContact,
+					admin: enAdmin,
+				},
 			},
 			es: {
-				common: esCommon,
-				home: esHome,
-				works: esWorks,
-				contact: esContact,
+				common: {
+					common: esCommon,
+					home: esHome,
+					works: esWorks,
+					contact: esContact,
+				},
 			},
 		},
 		lng: initialLocale,
@@ -79,8 +81,8 @@ export function initI18n(initialLocale: Locale = DEFAULT_LOCALE): I18nInstance {
 		},
 		// The admin namespace is en-only; fall back to en for `es`.
 		partialBundledLanguages: true,
-	});
-	return i18next;
+	}).then(() => i18next);
+	return initPromise;
 }
 
 /**

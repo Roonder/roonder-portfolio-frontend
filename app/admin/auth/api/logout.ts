@@ -2,7 +2,7 @@
  * `logoutAction` — the React Router server action for admin sign-out.
  *
  * Called by `SignOutButton` via
- * `fetcher.submit(null, { method: 'post', action: '/admin/auth/logout' })`.
+ * `fetcher.submit(null, { method: 'post', action: '/administration-panel/auth/logout' })`.
  *
  * Flow (per REQ-LO-1 / REQ-LO-2):
  *  1. POST `/api/v1/auth/logout` via `serverFetch`. The backend's
@@ -14,12 +14,12 @@
  *     backend does NOT clear the non-HttpOnly `access` cookie on
  *     `/auth/logout`, so the frontend is responsible for that half of
  *     the wipe (design §5 open question 6).
- *  3. Return `redirect('/admin/auth', { headers })` with the merged
+ *  3. Return `redirect('/administration-panel/auth', { headers })` with the merged
  *     `Set-Cookie` array on the outgoing response. The browser stores
  *     both clear directives and the user lands on the login form.
  *
  * On any error from the backend, we still clear the `access` cookie
- * and redirect to `/admin/auth` — logout is best-effort and must never
+ * and redirect to `/administration-panel/auth` — logout is best-effort and must never
  * leave the user in a half-signed-in state. The typed `ApiError` is
  * swallowed silently (no toast, no modal — locked decision D4); the
  * next page render will see an unauthenticated session and the
@@ -38,7 +38,7 @@ import { serverFetch } from "~/shared/lib/fetch-client/server";
 
 /**
  * React Router 8 server action. Always returns a `Response`: on the
- * happy path it's a `redirect('/admin/auth')` with the cookie-clear
+ * happy path it's a `redirect('/administration-panel/auth')` with the cookie-clear
  * `Set-Cookie` headers; on backend failure it's the same redirect
  * (with the `access` cookie clear still attached). The store-level
  * clear is the button's responsibility.
@@ -82,5 +82,5 @@ export async function logoutAction({
 		}
 	}
 
-	return redirect("/admin/auth", { headers });
+	return redirect("/administration-panel/auth", { headers });
 }

@@ -4,17 +4,22 @@
 		"description": "Get in touch for project inquiries, press, or strategic collaborations."
 	},
 	"page": {
-		"title": "Initiate Contact",
-		"subtitle": "For project inquiries, press, or strategic collaborations.",
-		"intro": "Send a transmission and I'll get back to you within 48 hours.",
-		"success": "Transmission acknowledged. Expect a response within 48 hours."
+		"title": "Let's Talk",
+		"subtitle": "Tell me about the bottleneck — not the feature list.",
+		"intro": "Send a message and I'll get back to you within 48 hours with real questions, not a sales pitch.",
+		"success": "Message received. Expect a response within 48 hours.",
+		"mailButton": "Email Me"
 	},
 	"form": {
 		"name": "Name",
+		"namePlaceholder": "Ana García",
 		"email": "Email",
+		"emailPlaceholder": "ana@yourcompany.com",
 		"subject": "Subject",
+		"subjectPlaceholder": "Architecture consulting for a checkout rebuild",
 		"body": "Message",
-		"submit": "Send Transmission",
+		"bodyPlaceholder": "We're losing orders at checkout and I'm not sure if it's the payment gateway or our own queue…",
+		"submit": "Send Message",
 		"submitting": "Sending… ({{seconds}}s)",
 		"submittingShort": "Sending…",
 		"success": "Message sent. I'll respond soon.",

@@ -59,7 +59,7 @@ export default function AdminProjectsListPage({
 		fd.set('_method', 'DELETE');
 		deleteFetcher.submit(fd, {
 			method: 'post',
-			action: `/admin/projects/${deleteTarget.id}`,
+			action: `/administration-panel/projects/${deleteTarget.id}`,
 		});
 		setDeleteTarget(null);
 	}
@@ -70,7 +70,7 @@ export default function AdminProjectsListPage({
 				<h1 className="font-display text-xl font-semibold text-on-surface">
 					Projects
 				</h1>
-				<Button size="sm" render={<Link to="/admin/projects/new" />}>
+				<Button size="sm" render={<Link to="/administration-panel/projects/new" />}>
 					<Plus className="mr-1.5 size-4" aria-hidden="true" />
 					New Project
 				</Button>
@@ -83,8 +83,8 @@ export default function AdminProjectsListPage({
 						key={value}
 						to={
 							value === 'all'
-								? '/admin/projects'
-								: `/admin/projects?status=${value}`
+								? '/administration-panel/projects'
+								: `/administration-panel/projects?status=${value}`
 						}
 						role="tab"
 						aria-selected={currentStatus === value}
@@ -106,7 +106,7 @@ export default function AdminProjectsListPage({
 					title="No projects yet"
 					body="Create your first project to get started."
 					action={
-						<Button size="sm" render={<Link to="/admin/projects/new" />}>
+						<Button size="sm" render={<Link to="/administration-panel/projects/new" />}>
 							<Plus className="mr-1.5 size-4" aria-hidden="true" />
 							New Project
 						</Button>
@@ -133,7 +133,7 @@ export default function AdminProjectsListPage({
 						const params = new URLSearchParams();
 						if (currentStatus !== 'all') params.set('status', currentStatus);
 						params.set('page', String(next));
-						window.location.href = `/admin/projects?${params.toString()}`;
+						window.location.href = `/administration-panel/projects?${params.toString()}`;
 					}}
 				/>
 			) : null}

@@ -11,6 +11,7 @@ import {
 import type { Route } from "./+types/root";
 import { useSessionStore } from "~/shared/stores/session";
 import { useLocaleStore } from "~/shared/stores/locale";
+import { Toaster } from "~/components/ui/sonner";
 // Side-effect import: initializes the i18next singleton so any
 // component that calls t(...) before the _public loader runs is
 // already wired up. Mirrors the useSessionStore.hydrate pattern
@@ -25,6 +26,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
 	// `_public.tsx` loader is what actually seeds the store on
 	// every navigation (REQ-I18N-9); this read here keeps the
 	// document attribute in sync after the store is populated.
+	// On the server, we read from the store (which was set by the loader).
+	// On the client, we read from the store (which was hydrated from
+	// the serialized data).
 	const locale = useLocaleStore.getState().locale;
 	return (
 		<html lang={locale}>
@@ -36,6 +40,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			</head>
 			<body className="font-sans">
 				{children}
+				<Toaster />
 				<ScrollRestoration />
 				<Scripts />
 			</body>

@@ -63,7 +63,7 @@ export function AdminProjectCard({
 					variant="outline"
 					size="sm"
 					className="flex-1"
-					render={<Link to={`/admin/projects/${project.id}`} />}
+					render={<Link to={`/administration-panel/projects/${project.id}`} />}
 				>
 					<Pencil className="mr-1.5 size-3.5" aria-hidden="true" />
 					Edit

@@ -13,7 +13,7 @@ export default function AdminProjectNewPage() {
 		<div className="flex flex-col gap-6">
 			<div className="flex items-center gap-2">
 				<Link
-					to="/admin/projects"
+					to="/administration-panel/projects"
 					className="inline-flex items-center gap-1 text-sm text-muted-foreground transition-colors hover:text-primary"
 				>
 					<ChevronLeft className="size-4" aria-hidden="true" />
@@ -25,7 +25,7 @@ export default function AdminProjectNewPage() {
 				New Project
 			</h1>
 
-			<AdminProjectForm method="post" action="/admin/projects/new" />
+			<AdminProjectForm method="post" action="/administration-panel/projects/new" />
 		</div>
 	);
 }

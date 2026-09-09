@@ -1,14 +1,13 @@
 /**
  * `ContactPage` — the public-facing `/contact` route module.
  *
- * Composes the `ContactForm` molecule (the source of truth for
- * both the home contact form and this page per REQ-CON-2 +
- * REQ-HOME-6) inside the `PublicLayout` chrome. The page itself
- * is a thin wrapper: the brand-flourish `MicroLabel`, a
- * `SectionHeading` with the page title/subtitle, the body
- * intro, and the form.
+ * Temporarily a `mailto:` CTA instead of the `ContactForm` molecule
+ * while the Resend domain/sender verification is pending — see
+ * `~/home/molecules/contact-cta` for the matching home-bento swap
+ * and the reasoning. `ContactForm` itself is untouched.
  */
 import { useTranslation } from 'react-i18next';
+import { Mail } from 'lucide-react';
 
 import { PublicHeader } from '~/shared/ui/molecules/public-header';
 import { PublicFooter } from '~/shared/ui/molecules/public-footer';
@@ -17,8 +16,9 @@ import { SectionHeading } from '~/shared/ui/atoms/section-heading';
 import { MicroLabel } from '~/shared/ui/atoms/micro-label';
 import { MobileHeader } from '~/shared/ui/molecules/mobile-header';
 import { BottomNavDock } from '~/shared/ui/molecules/bottom-nav-dock';
+import { Button } from '~/components/ui/button';
 
-import { ContactForm } from '~/contact/molecules/contact-form';
+const CONTACT_EMAIL = 'apontejuliam@gmail.com';
 
 export type ContactPageProps = {
 	className?: string;
@@ -54,8 +54,12 @@ export function ContactPage({ className }: ContactPageProps) {
 					</p>
 				</header>
 
-				<section className="rounded-2xl border border-outline-variant/40 bg-surface-container-low p-6 md:p-8">
-					<ContactForm />
+				<section className="flex flex-col items-start gap-4 rounded-2xl border border-outline-variant/40 bg-surface-container-low p-6 md:p-8">
+					<Button size="lg" render={<a href={`mailto:${CONTACT_EMAIL}`} />}>
+						<Mail className="mr-1.5 size-4" aria-hidden="true" />
+						{t('contact.page.mailButton')}
+					</Button>
+					<p className="text-sm text-muted-foreground">{CONTACT_EMAIL}</p>
 				</section>
 			</main>
 

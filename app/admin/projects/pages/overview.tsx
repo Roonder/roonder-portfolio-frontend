@@ -1,33 +1,27 @@
 /**
  * `AdminOverviewPage` — the admin overview page module.
  *
- * Composes the welcome card + Active Works stat (BLOCKED-ON-BACKEND
- * fallback per REQ-ADM-11) + a 3-card projects grid from the recent
- * projects. REQ-ADM-6, REQ-ADM-11.
+ * Composes the welcome card + the 3 live stat cards (Active Works,
+ * Reviews pending, Inbox pending — `GET /api/v1/admin/stats`) + a
+ * 3-card projects grid from the recent projects. REQ-ADM-6.
  */
 import { Link } from 'react-router';
-import { Folder, Plus } from 'lucide-react';
+import { Folder, MessageSquare, Plus, Star } from 'lucide-react';
 
 import { Button } from '~/components/ui/button';
 import { AdminStatCard } from '~/shared/ui/molecules/admin-stat-card';
 import { AdminProjectCard } from '~/admin/projects/molecules/admin-project-card';
 import { EmptyState } from '~/shared/ui/atoms/empty-state';
-import type { AdminProject } from '~/admin/projects/api/projects';
+import type { AdminProject, AdminStats } from '~/admin/projects/api/projects';
 
 export type AdminOverviewPageProps = {
 	recentProjects: AdminProject[];
-};
-
-// TODO(admin-projects): wire to live stats — `GET /api/v1/admin/projects/stats`
-// is BLOCKED-ON-BACKEND (REQ-ADM-11). When the backend ships the endpoint,
-// replace these hardcoded values with the live fetch.
-const STATS_FALLBACK = {
-	activeWorks: 24,
-	delta: '+3 this month',
+	stats: AdminStats;
 };
 
 export default function AdminOverviewPage({
 	recentProjects,
+	stats,
 }: AdminOverviewPageProps) {
 	return (
 		<div className="flex flex-col gap-8">
@@ -44,22 +38,24 @@ export default function AdminOverviewPage({
 			{/* Stats row */}
 			<section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				<AdminStatCard
-					value={STATS_FALLBACK.activeWorks}
+					value={stats.activeWorks}
 					label="Active Works"
-					delta={STATS_FALLBACK.delta}
+					delta={`+${stats.activeWorksThisMonth} this month`}
 					icon={<Folder className="size-5" aria-hidden="true" />}
 				/>
+				<Link to="/administration-panel/reviews?status=pending">
+					<AdminStatCard
+						value={stats.reviewsPending}
+						label="Reviews"
+						delta={stats.reviewsPending > 0 ? 'Pending approval' : 'All caught up'}
+						icon={<Star className="size-5" aria-hidden="true" />}
+					/>
+				</Link>
 				<AdminStatCard
-					value="—"
-					label="Reviews"
-					delta="Coming soon"
-					className="opacity-60"
-				/>
-				<AdminStatCard
-					value="—"
+					value={stats.inboxPending}
 					label="Inbox"
-					delta="Coming soon"
-					className="opacity-60"
+					delta={stats.inboxPending > 0 ? 'Unread messages' : 'All caught up'}
+					icon={<MessageSquare className="size-5" aria-hidden="true" />}
 				/>
 			</section>
 
@@ -69,7 +65,7 @@ export default function AdminOverviewPage({
 					<h2 className="font-display text-lg font-semibold text-on-surface">
 						Recent Projects
 					</h2>
-					<Button size="sm" render={<Link to="/admin/projects/new" />}>
+					<Button size="sm" render={<Link to="/administration-panel/projects/new" />}>
 						<Plus className="mr-1.5 size-4" aria-hidden="true" />
 						New
 					</Button>
@@ -80,7 +76,7 @@ export default function AdminOverviewPage({
 						title="No projects yet"
 						body="Create your first project to get started."
 						action={
-							<Button size="sm" render={<Link to="/admin/projects/new" />}>
+							<Button size="sm" render={<Link to="/administration-panel/projects/new" />}>
 								<Plus className="mr-1.5 size-4" aria-hidden="true" />
 								New Project
 							</Button>

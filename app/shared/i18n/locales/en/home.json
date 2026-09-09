@@ -4,10 +4,10 @@
 		"description": "Digital craftsmanship meets raw logic. The portfolio of Juliam Aponte."
 	},
 	"hero": {
-		"headline": "Digital craftsmanship meets raw logic",
-		"subhead": "Specializing in high-performance systems, based on strong roots, polished processes and landed visions.",
-		"cta": "Initiate Contact",
-		"ctaSecondary": "View Works"
+		"headline": "Outcomes, not billable hours",
+		"subhead": "My priority isn't stacking hours of code, but understanding your company's operational bottleneck to map a precise solution: we optimize your current resources, remove the bottleneck, and give your team back productive time.",
+		"cta": "Let's Talk",
+		"ctaSecondary": "See my contributions"
 	},
 	"metrics": {
 		"activeWorks": "Active works shipped",
@@ -19,30 +19,65 @@
 	},
 	"about": {
 		"title": "About {{brand}}",
-		"body": "I'm {{brand}} — a technical strategist focused on the intersection of robust engineering and editorial design. I work with founders and product teams to ship systems that survive contact with reality.",
-		"stat1": "Active works",
-		"stat2": "Retained clients",
-		"stat3": "Delivered projects"
+		"body": "I'm {{brand}}, a Software Developer and Architect focused on delivering operational predictability through technology. I help SMBs and forward-thinking clients unclog their processes and remove bottlenecks, following one simple rule: Plan and Act. First I define clear, achievable specifications — no fantasy goals — then I execute efficiently, pairing solid engineering fundamentals with AI-agent-driven development. The result: a scalable structure that returns your focus to the business, not the operations."
 	},
 	"sections": {
 		"about": {
 			"title": "About",
 			"body": "I'm {{brand}} — a technical strategist focused on the intersection of robust engineering and editorial design."
 		},
+		"methodology": {
+			"title": "How I Work",
+			"subtitle": "Understand, Plan, Act — in that order.",
+			"understand": {
+				"title": "Understand",
+				"body": "Beyond the symptom and its immediate cause: I dig into the why behind the business and where the pain actually started. I absorb your company's context before forming any opinion worth acting on."
+			},
+			"plan": {
+				"title": "Plan",
+				"body": "Planning isn't just moving technical pieces — subscriptions, stacks, approaches. It's mapping how that technical approach lands on the people who'll actually use it day to day."
+			},
+			"act": {
+				"title": "Act",
+				"body": "Execution isn't a speed contest. I move as fast as the project's real urgency and complexity allow — not faster, not slower."
+			}
+		},
 		"works": {
 			"title": "Selected Works"
 		},
 		"reviews": {
-			"title": "Client Voices"
+			"title": "Heard from our clients"
 		},
 		"contact": {
-			"title": "Initiate Contact",
-			"subtitle": "Send a transmission — I'll respond within 48 hours.",
-			"cta": "Send Transmission"
+			"title": "Let's Talk",
+			"subtitle": "Tell me about the bottleneck — I'll respond within 48 hours with real questions, not a sales pitch.",
+			"cta": "Email Me",
+			"cal-cta": "Schedule a call"
 		}
 	},
 	"reviews": {
 		"comingSoon": "A public review form is coming soon. Until then, the voices below are from past clients.",
-		"empty": "No client voices yet — be the first."
+		"empty": "No client voices yet — be the first.",
+		"form": {
+			"rating": "Rating",
+			"ratingValue": "{{value}} out of 5 stars",
+			"content": "Your review",
+			"contentPlaceholder": "Juliam mapped our onboarding bottleneck in a week and shipped a fix that actually stuck.",
+			"authorName": "Name (optional)",
+			"authorNamePlaceholder": "Ana García",
+			"authorRole": "Role / company (optional)",
+			"authorRolePlaceholder": "COO, Nortec Logistics",
+			"submit": "Submit review",
+			"submitting": "Sending… ({{seconds}}s)",
+			"submittingShort": "Sending…",
+			"success": "Thanks! Your review is pending approval and will appear soon.",
+			"validation": {
+				"authorNameMax": "Name must be 100 characters or fewer.",
+				"authorRoleMax": "Role must be 120 characters or fewer.",
+				"contentMin": "Review must be at least 10 characters.",
+				"contentMax": "Review must be 2000 characters or fewer.",
+				"ratingRequired": "Pick a rating from 1 to 5."
+			}
+		}
 	}
 }

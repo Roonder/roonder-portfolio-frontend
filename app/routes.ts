@@ -47,25 +47,27 @@ export default [
   ...publicRoutes("en"),
 
   // Admin surface (no i18n in scope)
-  layout("routes/admin.tsx", [
-    index("routes/admin._index.tsx"),
-    route("auth", "routes/admin.auth.tsx"),
-    route("auth/logout", "routes/admin.auth.logout.tsx"),
+  ...prefix("administration-panel", [
+    layout("routes/admin.tsx", [
+      index("routes/admin._index.tsx"),
+      route("auth", "routes/admin.auth.tsx"),
+      route("auth/logout", "routes/admin.auth.logout.tsx"),
 
-    route("projects", "routes/admin.projects.tsx", [
-      index("routes/admin.projects._index.tsx"),
-      route("new", "routes/admin.projects.new.tsx"),
-      route(":id", "routes/admin.projects.$id.tsx"),
-    ]),
+      route("projects", "routes/admin.projects.tsx", [
+        index("routes/admin.projects._index.tsx"),
+        route("new", "routes/admin.projects.new.tsx"),
+        route(":id", "routes/admin.projects.$id.tsx"),
+      ]),
 
-    route("reviews", "routes/admin.reviews.tsx", [
-      index("routes/admin.reviews._index.tsx"),
-      route(":id", "routes/admin.reviews.$id.tsx"),
-    ]),
+      route("reviews", "routes/admin.reviews.tsx", [
+        index("routes/admin.reviews._index.tsx"),
+        route(":id", "routes/admin.reviews.$id.tsx"),
+      ]),
 
-    route("contact", "routes/admin.contact.tsx", [
-      index("routes/admin.contact._index.tsx"),
-      route(":id", "routes/admin.contact.$id.tsx"),
+      route("contact", "routes/admin.contact.tsx", [
+        index("routes/admin.contact._index.tsx"),
+        route(":id", "routes/admin.contact.$id.tsx"),
+      ]),
     ]),
   ]),
 ] satisfies RouteConfig;

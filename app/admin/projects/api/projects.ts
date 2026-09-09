@@ -2,18 +2,17 @@
  * Admin projects API module.
  *
  * Contains the loader helpers and action functions for the admin
- * projects subdomain (list, new, edit, delete). Each function
- * uses `serverFetch` (loader context) or `clientFetch` (action
- * context) from the locked `http-client` spec.
+ * projects subdomain (list, new, edit, delete). Every function uses
+ * `serverFetch` — loaders AND actions both execute server-side in
+ * React Router, so `clientFetch` (which assumes a browser: relative
+ * URLs, the in-memory zustand token) never worked here.
  *
  * REQ-ADM-1, REQ-ADM-2, REQ-ADM-3, REQ-ADM-5.
  */
-import { redirect } from 'react-router';
 import { mutate } from 'swr';
 import { z } from 'zod';
 
 import { serverFetch } from '~/shared/lib/fetch-client/server';
-import { clientFetch } from '~/shared/lib/fetch-client/client';
 import { ApiError, API_ERROR_KIND } from '~/shared/lib/fetch-client/errors';
 import { swrKeys } from '~/shared/swr/keys';
 import { projectSchema } from '~/home/schema';
@@ -70,10 +69,31 @@ export async function getAdminProjectById(request: Request, id: string) {
 	return { data: result.data, setCookies: result.setCookies };
 }
 
+// --- Admin stats -------------------------------------------------------------
+
+export const adminStatsSchema = z.object({
+	activeWorks: z.number().int().nonnegative(),
+	activeWorksThisMonth: z.number().int().nonnegative(),
+	reviewsPending: z.number().int().nonnegative(),
+	inboxPending: z.number().int().nonnegative(),
+});
+
+export type AdminStats = z.infer<typeof adminStatsSchema>;
+
+/** Fetch the admin overview aggregate stats. */
+export async function getAdminStats(request: Request) {
+	const result = await serverFetch(request, {
+		url: swrKeys.admin.projects.stats(),
+		method: 'GET',
+		schema: adminStatsSchema,
+	});
+	return { data: result.data, setCookies: result.setCookies };
+}
+
 // --- Action helpers ---------------------------------------------------------
 
 type ActionResult =
-	| { ok: true; data?: unknown }
+	| { ok: true; data?: unknown; setCookies?: string[] }
 	| { ok: false; error: ReturnType<ApiError['toJSON']> };
 
 /**
@@ -100,14 +120,13 @@ export async function createProjectAction(request: Request): Promise<ActionResul
 	}
 
 	try {
-		const result = await clientFetch({
-			url: swrKeys.admin.projects.list(),
+		const result = await serverFetch(request, {
+			url: swrKeys.admin.projects.create(),
 			method: 'POST',
 			body: parsed.data,
 		});
-		const data = result.data as { id: string };
 		await mutate(swrKeys.admin.projects.list());
-		return redirect(`/admin/projects/${data.id}`) as unknown as ActionResult;
+		return { ok: true, data: result.data, setCookies: result.setCookies };
 	} catch (err) {
 		if (err instanceof ApiError) {
 			return { ok: false, error: err.toJSON() };
@@ -150,14 +169,14 @@ export async function updateProjectAction(
 	}
 
 	try {
-		await clientFetch({
-			url: swrKeys.admin.projects.byId(id),
+		const result = await serverFetch(request, {
+			url: swrKeys.admin.projects.mutateUrl(id),
 			method: 'PATCH',
 			body: parsed.data,
 		});
 		await mutate(swrKeys.admin.projects.list());
 		await mutate(swrKeys.admin.projects.byId(id));
-		return { ok: true };
+		return { ok: true, setCookies: result.setCookies };
 	} catch (err) {
 		if (err instanceof ApiError) {
 			return { ok: false, error: err.toJSON() };
@@ -179,16 +198,16 @@ export async function updateProjectAction(
  * On 204: invalidate the list SWR key.
  */
 export async function deleteProjectAction(
-	_request: Request,
+	request: Request,
 	id: string,
 ): Promise<ActionResult> {
 	try {
-		await clientFetch({
-			url: swrKeys.admin.projects.byId(id),
+		const result = await serverFetch(request, {
+			url: swrKeys.admin.projects.mutateUrl(id),
 			method: 'DELETE',
 		});
 		await mutate(swrKeys.admin.projects.list());
-		return { ok: true };
+		return { ok: true, setCookies: result.setCookies };
 	} catch (err) {
 		if (err instanceof ApiError) {
 			return { ok: false, error: err.toJSON() };

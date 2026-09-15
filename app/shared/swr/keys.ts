@@ -50,7 +50,7 @@ export const swrKeys = {
 		/** Full published list, capped at 100 by the backend. */
 		list: () => '/api/v1/projects?isPublished=true&pageSize=100',
 		/** Single project by slug (the canonical /works/:slug URL). */
-		bySlug: (slug: string) => `/api/v1/projects/${slug}`,
+		bySlug: (slug: string) => `/api/v1/projects/${encodeURIComponent(slug)}`,
 	},
 	contact: {
 		/**
@@ -79,8 +79,8 @@ export const swrKeys = {
 				return `/api/v1/projects/admin${toQuery({ ...rest, isPublished })}`;
 			},
 			/** `GET/PATCH/DELETE /api/v1/projects/by-id/:id` (read) or `/:id` (write). */
-			byId: (id: string) => `/api/v1/projects/by-id/${id}`,
-			mutateUrl: (id: string) => `/api/v1/projects/${id}`,
+			byId: (id: string) => `/api/v1/projects/by-id/${encodeURIComponent(id)}`,
+			mutateUrl: (id: string) => `/api/v1/projects/${encodeURIComponent(id)}`,
 			create: () => '/api/v1/projects',
 			stats: () => '/api/v1/admin/stats',
 		},
@@ -93,9 +93,9 @@ export const swrKeys = {
 				isApproved?: boolean;
 			}) => `/api/v1/admin/reviews${toQuery(filters ?? {})}`,
 			/** `PATCH /api/v1/admin/reviews/:id/approve` — idempotent toggle. */
-			approve: (id: string) => `/api/v1/admin/reviews/${id}/approve`,
+			approve: (id: string) => `/api/v1/admin/reviews/${encodeURIComponent(id)}/approve`,
 			/** `DELETE /api/v1/admin/reviews/:id`. */
-			delete: (id: string) => `/api/v1/admin/reviews/${id}`,
+			delete: (id: string) => `/api/v1/admin/reviews/${encodeURIComponent(id)}`,
 		},
 		contact: {
 			list: (filters?: { unread?: boolean; page?: number }) =>

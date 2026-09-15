@@ -22,7 +22,7 @@
  * architecture stays clean: the route file just re-exports both.
  */
 
-import { data, redirect } from 'react-router';
+import { data } from 'react-router';
 
 import { safeNext } from '~/shared/lib/fetch-client/get-session';
 import { serverFetch } from '~/shared/lib/fetch-client/server';
@@ -30,16 +30,19 @@ import { ApiError, API_ERROR_KIND } from '~/shared/lib/fetch-client/errors';
 import { authResponseSchema, loginSchema } from '~/admin/auth/schema';
 
 export type LoginActionResult =
-	| { ok: true; user: { id: string; email: string } }
+	| { ok: true; accessToken: string; expiresIn: number; next: string }
 	| { ok: false; error: ApiError };
 
 /**
- * React Router 8 server action. Returns either a `redirect()`
- * (success, with the new `access` + `rt` cookies) or a
- * `data({ error }, { status })` envelope (failure, so the form
- * can pattern-match on `fetcher.data.error`). The framework
- * accepts any return value here (the inferred return is the
- * union of both branches).
+ * React Router 8 server action. On success returns the parsed
+ * `accessToken` + `expiresIn` (from the backend's `AuthResponseDto`)
+ * plus the sanitized `next` URL as a `data()` payload, with the new
+ * `access` + `rt` Set-Cookie headers attached so the browser stores
+ * them; the login page writes the token into the session store and
+ * navigates. On failure it returns a `data({ error }, { status })`
+ * envelope so the form can pattern-match on `fetcher.data.error`.
+ * The framework accepts any return value here (the inferred return is
+ * the union of both branches).
  */
 export async function loginAction({ request }: { request: Request }) {
 	const form = await request.formData();
@@ -73,16 +76,20 @@ export async function loginAction({ request }: { request: Request }) {
 			schema: authResponseSchema,
 		});
 
-		// Success — redirect to the safe next URL with both new cookies
-		// (`access` and `rt`) attached to the outgoing response.
-		// `setCookies` is the Set-Cookie array captured by `serverFetch`
-		// from the internal backend response. React Router 8 merges
-		// these into the child response so the browser stores them.
+		// Success — return the parsed token so the login page can write
+		// it into the session store (the store cannot re-read the cookie:
+		// `root.tsx` hydrates only once at mount, before login) and follow
+		// the sanitized `next` URL. Both new cookies (`access` + `rt`) are
+		// attached to the outgoing response; `setCookies` is the Set-Cookie
+		// array captured by `serverFetch` from the internal backend
+		// response, and React Router merges them into the child response so
+		// the browser stores them.
 		const headers = new Headers();
 		for (const c of result.setCookies) {
 			headers.append('Set-Cookie', c);
 		}
-		return redirect(next, { headers });
+		const { accessToken, expiresIn } = result.data;
+		return data({ ok: true, accessToken, expiresIn, next }, { headers });
 	} catch (err) {
 		if (err instanceof ApiError) {
 			// Pass through the typed error to the form. The form

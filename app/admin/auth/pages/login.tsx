@@ -17,7 +17,7 @@
  */
 
 import { useEffect } from 'react';
-import { useFetcher, useSearchParams } from 'react-router';
+import { useFetcher, useNavigate, useSearchParams } from 'react-router';
 import { useForm, type Resolver } from 'react-hook-form';
 
 import { Button } from '~/components/ui/button';
@@ -34,6 +34,13 @@ import { cn } from '~/shared/lib/cn';
 import { API_ERROR_KIND, type ApiError } from '~/shared/lib/fetch-client/errors';
 import { useSessionStore } from '~/shared/stores/session';
 import { loginSchema, type LoginInput } from '~/admin/auth/schema';
+
+type LoginActionSuccess = {
+	ok: true;
+	accessToken: string;
+	expiresIn: number;
+	next: string;
+};
 
 type LoginActionError = {
 	error: ReturnType<ApiError['toJSON']>;
@@ -64,11 +71,31 @@ const zodResolver: Resolver<LoginInput> = async (values) => {
 export default function LoginPage() {
 	const [searchParams] = useSearchParams();
 	const next = searchParams.get('next') ?? '';
-	const fetcher = useFetcher<LoginActionError>();
+	const fetcher = useFetcher<LoginActionSuccess | LoginActionError>();
 	const user = useSessionStore((s) => s.user);
+	const navigate = useNavigate();
+
+	// REQ-SES-5: on a successful login the action returns the new
+	// `accessToken` + `expiresIn` in its data payload (parsed from the
+	// backend's `AuthResponseDto` by `authResponseSchema`). Write them
+	// into the store directly, then follow the sanitized `next` URL.
+	// Deterministic by design: no re-reading the cookie at the "right"
+	// moment. `root.tsx`'s `hydrate()` runs once at mount — BEFORE
+	// login — and the root does not remount on SPA navigation, which
+	// is why browser-side calls (e.g. the cover-image upload) were
+	// sending no `Authorization` header → backend 401.
+	useEffect(() => {
+		if (!fetcher.data || !('ok' in fetcher.data) || !fetcher.data.ok) return;
+		useSessionStore.getState().refresh({
+			accessToken: fetcher.data.accessToken,
+			expiresAt: Date.now() + fetcher.data.expiresIn * 1000,
+		});
+		navigate(fetcher.data.next);
+	}, [fetcher.data, navigate]);
 
 	const isSubmitting = fetcher.state !== 'idle';
-	const error = fetcher.data?.error;
+	const error =
+		fetcher.data && !('ok' in fetcher.data) ? fetcher.data.error : undefined;
 
 	const {
 		register,

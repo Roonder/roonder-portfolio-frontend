@@ -27,17 +27,9 @@
 import { z } from 'zod';
 
 import { readAccessToken } from '../cookies';
+import { API_BASE_URL } from './api-base';
 import type { CoreEnv, CoreResult, RequestInit_ } from './core';
 import { requestCore } from './core';
-
-/**
- * The backend's base URL for SSR `fetch` calls. Node.js cannot resolve
- * relative URLs — `fetch('/api/v1/projects')` throws `TypeError: Failed
- * to parse URL`. The `API_BASE_URL` env var (e.g. `http://localhost:3000`)
- * provides the origin. In production, set this to the backend's public
- * URL (or leave empty if frontend and backend share an origin).
- */
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL ?? '').replace(/\/+$/, '');
 
 export type ServerResult<S extends z.ZodType | undefined = undefined> =
 	CoreResult<S> & {

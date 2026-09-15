@@ -2,6 +2,11 @@
  * `uploadCoverImage` — browser-only upload of a project cover image to
  * `POST /api/v1/uploads/cover-image`.
  *
+ * The URL is resolved against the configured backend base
+ * (`CLIENT_API_BASE_URL`) in production, where no reverse proxy
+ * forwards `/api/*` to the backend; in dev the base is empty and the
+ * relative URL hits the Vite dev proxy.
+ *
  * Deliberately bypasses `clientFetch` (see `~/shared/lib/fetch-client`):
  * `core.ts`'s `composeHeaders` forces `Content-Type: application/json`
  * on any request with a body unless the caller supplies its own
@@ -14,6 +19,7 @@
  * see the backend's `UploadsService` for why). On failure, throws an
  * `Error` with a user-facing message the caller can hand to `toast.error`.
  */
+import { CLIENT_API_BASE_URL } from '~/shared/lib/fetch-client/api-base';
 import { useSessionStore } from '~/shared/stores/session';
 
 const MAX_COVER_IMAGE_BYTES = 5 * 1024 * 1024;
@@ -32,7 +38,7 @@ export async function uploadCoverImage(file: File): Promise<{ key: string }> {
 
 	let response: Response;
 	try {
-		response = await fetch('/api/v1/uploads/cover-image', {
+		response = await fetch(`${CLIENT_API_BASE_URL}/api/v1/uploads/cover-image`, {
 			method: 'POST',
 			body: form,
 			credentials: 'include',

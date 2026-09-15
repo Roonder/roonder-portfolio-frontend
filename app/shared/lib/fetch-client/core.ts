@@ -16,6 +16,7 @@
 
 import { z } from 'zod';
 
+import { CLIENT_API_BASE_URL } from './api-base';
 import { ApiError, fromNetwork, fromResponse } from './errors';
 
 // --- public types -----------------------------------------------------------
@@ -52,7 +53,9 @@ export type CoreEnv = {
 
 /**
  * Run one HTTP request end-to-end:
- *  1. Build the URL (auto-prepend `/api/v1` for relative paths).
+ *  1. Build the URL (auto-prepend `/api/v1` for relative paths; in
+ *     production, resolve it against the configured backend base so the
+ *     browser reaches the backend directly).
  *  2. Compose headers (apply bearer if `accessToken` is set, content-type
  *     for non-GET with a body, plus any caller-supplied extras).
  *  3. Run `fetch` with the composed abort signal.
@@ -132,17 +135,20 @@ export async function requestCore<
 // --- helpers ----------------------------------------------------------------
 
 function normalizeUrl(url: string): string {
-	// Absolute (http(s)://, //evil.com/x) or root-relative to another
-	// origin stays untouched. Same-origin relative paths get the
-	// /api/v1 prefix so callers can write `'/projects'` instead of the
-	// full path.
+	// Absolute (http(s)://, //other-origin/x) URLs stay untouched.
+	// Same-origin relative paths get the /api/v1 prefix so callers can
+	// write `'/projects'` instead of the full path. Finally, in
+	// production the relative path is resolved against the configured
+	// backend base (`CLIENT_API_BASE_URL`); in dev the base is empty so
+	// the relative URL keeps hitting the Vite dev proxy.
 	if (/^(https?:)?\/\//i.test(url)) return url;
-	return url.startsWith('/api/v1/') || url === '/api/v1'
+	const path = url.startsWith('/api/v1/') || url === '/api/v1'
 		? url
 		: `/api/v1${url.startsWith('/') ? '' : '/'}${url.replace(/^\/+/, '')}`.replace(
 				/\/+/g,
 				'/',
 			);
+	return CLIENT_API_BASE_URL ? `${CLIENT_API_BASE_URL}${path}` : path;
 }
 
 function isAuthEndpoint(url: string): boolean {
